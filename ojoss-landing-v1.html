@@ -1486,13 +1486,42 @@
       --dg-soft: rgba(34,197,94,0.15);
     }
 
-    /* S02 — headline grande DROP 01 */
-    .oj-s02__drop-title {
-      font-size: clamp(42px, 9vw, 108px);
-      font-weight: 900; letter-spacing: -0.04em;
-      line-height: 0.93; color: #fff;
-      text-transform: uppercase;
-      margin-bottom: 24px;
+    /* S02 — alternating title SUBMERGED ↔ DROP 01 */
+    @keyframes submerged-in {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(12px); }
+      8%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+      46%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+      54%  { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    }
+    @keyframes drop01-in {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      46%  { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      54%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+      92%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+    }
+    .oj-s02__title-wrap {
+      position: relative;
+      width: 100%;
+      min-height: clamp(52px, 11vw, 130px);
+      margin-bottom: 20px;
+    }
+    .oj-s02__submerged {
+      position: absolute; left: 50%; top: 0;
+      font-size: clamp(48px, 10.5vw, 120px);
+      font-weight: 900; letter-spacing: -0.045em;
+      line-height: 0.9; color: #fff;
+      text-transform: uppercase; white-space: nowrap;
+      animation: submerged-in 5.5s cubic-bezier(0.16,1,0.3,1) infinite;
+    }
+    .oj-s02__drop01 {
+      position: absolute; left: 50%; top: 0;
+      font-size: clamp(14px, 2.2vw, 26px);
+      font-weight: 400; letter-spacing: 0.42em;
+      line-height: 1; color: rgba(255,255,255,0.55);
+      text-transform: uppercase; white-space: nowrap;
+      animation: drop01-in 5.5s cubic-bezier(0.16,1,0.3,1) infinite;
     }
 
     /* CTA principal — estilo juvenil verde */
@@ -1612,7 +1641,7 @@
     }
     .oj-carousel__track {
       display: flex;
-      transition: transform 0.55s cubic-bezier(0.25,1,0.5,1);
+      transition: transform 0.9s cubic-bezier(0.25,1,0.5,1);
     }
     .oj-carousel__slide {
       flex: 0 0 100%;
@@ -1638,20 +1667,20 @@
     /* Prev / next */
     .oj-car-prev, .oj-car-next {
       position: absolute; top: 50%; transform: translateY(-50%);
-      width: 38px; height: 38px;
-      background: rgba(0,0,0,0.6);
-      border: 1px solid rgba(34,197,94,0.25);
-      color: var(--dg); font-size: 18px; line-height: 1;
+      width: 36px; height: 48px;
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.18); font-size: 20px; line-height: 1;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; z-index: 2;
-      transition: border-color 0.25s, box-shadow 0.25s;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
       font-family: var(--font);
     }
-    .oj-car-prev { left: 10px; }
-    .oj-car-next { right: 10px; }
+    .oj-car-prev { left: 8px; }
+    .oj-car-next { right: 8px; }
     .oj-car-prev:hover, .oj-car-next:hover {
-      border-color: var(--dg);
-      box-shadow: 0 0 14px var(--dg-glow);
+      color: var(--dg);
+      text-shadow: 0 0 12px var(--dg-glow), 0 0 28px rgba(34,197,94,0.2);
     }
     /* Dots */
     .oj-car-dots {
@@ -1692,7 +1721,10 @@
 
     <!-- S02 — REVEAL -->
     <div class="oj-sec oj-s02" id="oj-s02">
-      <h2 class="oj-s02__drop-title">DROP 01<br>SUBMERGED</h2>
+      <div class="oj-s02__title-wrap">
+        <div class="oj-s02__submerged">SUBMERGED</div>
+        <div class="oj-s02__drop01">DROP 01</div>
+      </div>
 
       <!-- Carousel -->
       <div class="oj-carousel" id="oj-s02-carousel">
@@ -1710,8 +1742,8 @@
             <span class="oj-carousel__label">INVERTED</span>
           </div>
         </div>
-        <button class="oj-car-prev" id="s02-car-prev">&#8249;</button>
-        <button class="oj-car-next" id="s02-car-next">&#8250;</button>
+        <button class="oj-car-prev" id="s02-car-prev">←</button>
+        <button class="oj-car-next" id="s02-car-next">→</button>
         <div class="oj-car-dots">
           <button class="oj-car-dot c-active" data-idx="0"></button>
           <button class="oj-car-dot" data-idx="1"></button>
@@ -2388,7 +2420,7 @@
           }
 
           function startAuto() {
-            timer = setInterval(function () { goSlide(cur + 1); }, 2600);
+            timer = setInterval(function () { goSlide(cur + 1); }, 4000);
           }
           function stopAuto() { clearInterval(timer); }
 
