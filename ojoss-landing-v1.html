@@ -1603,6 +1603,77 @@
     .oj-sec-nav__btn:hover:not(:disabled) {
       color: var(--dg);
     }
+
+    /* ══ S02 CAROUSEL ══════════════════════════════════════════ */
+    .oj-carousel {
+      width: 100%; max-width: 460px;
+      position: relative; overflow: hidden;
+      margin: 24px auto 0;
+    }
+    .oj-carousel__track {
+      display: flex;
+      transition: transform 0.55s cubic-bezier(0.25,1,0.5,1);
+    }
+    .oj-carousel__slide {
+      flex: 0 0 100%;
+      position: relative;
+    }
+    .oj-carousel__slide img {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover; object-position: center;
+      display: block;
+      filter: grayscale(100%) brightness(0.55);
+      transition: filter 0.6s ease;
+    }
+    .oj-carousel__slide.c-active img {
+      filter: grayscale(15%) brightness(0.88);
+    }
+    .oj-carousel__label {
+      position: absolute; bottom: 14px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px; letter-spacing: 0.48em;
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
+      pointer-events: none;
+    }
+    /* Prev / next */
+    .oj-car-prev, .oj-car-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 38px; height: 38px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(34,197,94,0.25);
+      color: var(--dg); font-size: 18px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 2;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      font-family: var(--font);
+    }
+    .oj-car-prev { left: 10px; }
+    .oj-car-next { right: 10px; }
+    .oj-car-prev:hover, .oj-car-next:hover {
+      border-color: var(--dg);
+      box-shadow: 0 0 14px var(--dg-glow);
+    }
+    /* Dots */
+    .oj-car-dots {
+      display: flex; justify-content: center;
+      gap: 8px; margin: 14px 0 4px;
+    }
+    .oj-car-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #222; border: none; cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      padding: 0;
+    }
+    .oj-car-dot.c-active {
+      background: var(--dg);
+      box-shadow: 0 0 8px var(--dg-glow);
+    }
+    /* Claim text update */
+    .oj-s02__claim {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.38em; text-transform: uppercase;
+      color: #444; margin: 16px auto 0; max-width: 440px;
+    }
   </style>
 </head>
 
@@ -1622,22 +1693,34 @@
     <!-- S02 — REVEAL -->
     <div class="oj-sec oj-s02" id="oj-s02">
       <h2 class="oj-s02__drop-title">DROP 01<br>SUBMERGED</h2>
-      <div class="oj-s02__grid">
-        <div>
-          <img class="oj-s02__img" src="assets/label-detail.jpg" alt="Detalle marquilla" loading="lazy">
-          <p class="oj-s02__caption">DETALLE</p>
+
+      <!-- Carousel -->
+      <div class="oj-carousel" id="oj-s02-carousel">
+        <div class="oj-carousel__track" id="s02-track">
+          <div class="oj-carousel__slide c-active">
+            <img src="assets/label-detail.jpg" alt="Detalle" loading="lazy">
+            <span class="oj-carousel__label">DETALLE</span>
+          </div>
+          <div class="oj-carousel__slide">
+            <img src="assets/001-back.png" alt="VOID" loading="lazy">
+            <span class="oj-carousel__label">VOID</span>
+          </div>
+          <div class="oj-carousel__slide">
+            <img src="assets/003-back.jpg" alt="INVERTED" loading="lazy">
+            <span class="oj-carousel__label">INVERTED</span>
+          </div>
         </div>
-        <div>
-          <img class="oj-s02__img" src="assets/001-back.png" alt="001 VOID espalda" loading="lazy">
-          <p class="oj-s02__caption">VOID</p>
-        </div>
-        <div>
-          <img class="oj-s02__img" src="assets/003-back.jpg" alt="003 INVERTED espalda" loading="lazy">
-          <p class="oj-s02__caption">INVERTED</p>
+        <button class="oj-car-prev" id="s02-car-prev">&#8249;</button>
+        <button class="oj-car-next" id="s02-car-next">&#8250;</button>
+        <div class="oj-car-dots">
+          <button class="oj-car-dot c-active" data-idx="0"></button>
+          <button class="oj-car-dot" data-idx="1"></button>
+          <button class="oj-car-dot" data-idx="2"></button>
         </div>
       </div>
-      <p class="oj-s02__claim">7 días. 20 unidades.<br>Después desaparece.</p>
-      <button class="oj-cta" id="oj-s02-next">ENTRA YA →</button>
+
+      <p class="oj-s02__claim">SOLO 20 UNIDADES — 7 DÍAS</p>
+      <button class="oj-cta" id="oj-s02-next">PÓLVORA</button>
       <div class="oj-sec-nav">
         <button class="oj-sec-nav__btn" id="s02-back">← ATRÁS</button>
         <button class="oj-sec-nav__btn" id="s02-fwd">SIGUIENTE →</button>
@@ -2285,6 +2368,44 @@
         });
         var s02Fwd = document.getElementById('s02-fwd');
         if (s02Fwd) s02Fwd.addEventListener('click', function () { goTo('oj-s03'); });
+
+        /* ── S02 CAROUSEL ──────────────────────────────────────── */
+        (function () {
+          var track  = document.getElementById('s02-track');
+          var slides = track ? track.querySelectorAll('.oj-carousel__slide') : [];
+          var dots   = document.querySelectorAll('.oj-car-dot');
+          var total  = slides.length;
+          var cur    = 0;
+          var timer  = null;
+
+          function goSlide(n) {
+            slides[cur].classList.remove('c-active');
+            dots[cur].classList.remove('c-active');
+            cur = (n + total) % total;
+            slides[cur].classList.add('c-active');
+            dots[cur].classList.add('c-active');
+            if (track) track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+          }
+
+          function startAuto() {
+            timer = setInterval(function () { goSlide(cur + 1); }, 2600);
+          }
+          function stopAuto() { clearInterval(timer); }
+
+          var prev = document.getElementById('s02-car-prev');
+          var next = document.getElementById('s02-car-next');
+          if (prev) prev.addEventListener('click', function () { stopAuto(); goSlide(cur - 1); startAuto(); });
+          if (next) next.addEventListener('click', function () { stopAuto(); goSlide(cur + 1); startAuto(); });
+          dots.forEach(function (dot) {
+            dot.addEventListener('click', function () {
+              stopAuto();
+              goSlide(parseInt(dot.dataset.idx, 10));
+              startAuto();
+            });
+          });
+
+          startAuto();
+        })();
 
         /* S03 — VARIANT TABS */
         document.querySelectorAll('.oj-tab').forEach(function (tab) {
