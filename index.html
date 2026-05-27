@@ -1188,7 +1188,6 @@
     }
     .oj-field input:focus { border-color: #333; }
     .oj-field input::placeholder { color: #2a2a2a; }
-    .oj-field--opt label::after { content: ' (opcional)'; color: #222; font-size: 8px; }
     .oj-form-submit {
       width: 100%; background: #EFEFEF; color: #000;
       font-family: var(--font); font-size: 10px;
@@ -1606,6 +1605,15 @@
       box-shadow: 0 0 10px var(--dg-soft);
     }
 
+    /* S05 heading */
+    .oj-s05__heading {
+      font-size: clamp(36px, 8vw, 88px);
+      font-weight: 900; letter-spacing: -0.04em; line-height: 0.9;
+      color: #fff; text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .oj-required { color: var(--dg); }
+
     /* Form submit + Nequi confirm — mismo estilo verde */
     .oj-form-submit {
       background: transparent;
@@ -1808,35 +1816,27 @@
 
       <!-- S05-A: Contact form -->
       <div id="oj-s05-form-wrap">
-        <p class="oj-eyebrow">Confirma tu reserva</p>
-        <h2 class="oj-h2">Casi listo.</h2>
-        <p class="oj-body" style="margin-bottom:32px;max-width:360px">
-          Esta no es una compra.<br>Es una reserva de acceso.
-        </p>
+        <h2 class="oj-s05__heading">CASI LISTO</h2>
         <form class="oj-form" id="oj-drop-form" novalidate>
           <div class="oj-field">
-            <label>Nombre <span style="color:#E05555">*</span></label>
+            <label>Nombre <span class="oj-required">*</span></label>
             <input type="text" name="drop_nombre" placeholder="Tu nombre" required autocomplete="given-name">
           </div>
           <div class="oj-field">
-            <label>WhatsApp <span style="color:#E05555">*</span></label>
+            <label>WhatsApp <span class="oj-required">*</span></label>
             <input type="tel" name="drop_whatsapp" placeholder="+57 300 000 0000" required autocomplete="tel">
           </div>
-          <div class="oj-field oj-field--opt">
+          <div class="oj-field">
             <label>Instagram</label>
             <input type="text" name="drop_instagram" placeholder="@tuusuario" autocomplete="off">
           </div>
-          <div class="oj-field oj-field--opt">
+          <div class="oj-field">
             <label>Email</label>
             <input type="email" name="drop_email" placeholder="tu@correo.com" autocomplete="email">
           </div>
           <button type="submit" class="oj-form-submit" id="oj-form-submit">SIGUIENTE — PAGAR</button>
           <p class="oj-form-error" id="oj-form-error">Completa los campos obligatorios.</p>
           <p class="oj-form-note">Sin spam. Solo confirmamos tu acceso al drop.</p>
-          <div class="oj-sec-nav">
-            <button type="button" class="oj-sec-nav__btn" id="s05-back">← ATRÁS</button>
-            <span class="oj-sec-nav__btn oj-sec-nav__btn--hidden">SIGUIENTE →</span>
-          </div>
         </form>
       </div>
 
