@@ -1478,6 +1478,131 @@
       .oj-s02__grid { grid-template-columns: repeat(3, 1fr); gap: 4px; }
       .oj-gallery { max-width: 100%; }
     }
+
+    /* ══ GREEN ACCENT SYSTEM — DROP overlay ════════════════════ */
+    #oj-overlay {
+      --dg:      #22C55E;
+      --dg-glow: rgba(34,197,94,0.38);
+      --dg-soft: rgba(34,197,94,0.15);
+    }
+
+    /* S02 — headline grande DROP 01 */
+    .oj-s02__drop-title {
+      font-size: clamp(42px, 9vw, 108px);
+      font-weight: 900; letter-spacing: -0.04em;
+      line-height: 0.93; color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    /* CTA principal — estilo juvenil verde */
+    .oj-cta {
+      background: transparent;
+      color: var(--dg);
+      border: 1.5px solid var(--dg);
+      font-size: 11px; letter-spacing: 0.28em;
+      box-shadow: 0 0 0 transparent;
+      transition: background 0.3s, box-shadow 0.35s, transform 0.3s, color 0.3s;
+    }
+    .oj-cta:hover {
+      background: var(--dg-soft);
+      box-shadow: 0 0 22px var(--dg-glow), 0 0 60px rgba(34,197,94,0.12);
+      color: #fff;
+      border-color: var(--dg);
+      transform: translateY(-2px);
+    }
+
+    /* Variant tabs */
+    .oj-tab { border-color: #1c1c1c; transition: all 0.25s; }
+    .oj-tab.active {
+      background: transparent;
+      color: var(--dg);
+      border-color: var(--dg);
+      box-shadow: 0 0 10px var(--dg-soft);
+    }
+    .oj-tab:hover:not(.active) {
+      color: var(--dg);
+      border-color: rgba(34,197,94,0.35);
+    }
+
+    /* Gallery box */
+    .oj-gallery {
+      border: 1px solid #111;
+      transition: border-color 0.35s, box-shadow 0.35s;
+    }
+    .oj-gallery:hover {
+      border-color: var(--dg);
+      box-shadow: 0 0 18px var(--dg-soft);
+    }
+
+    /* S02 gallery images */
+    .oj-s02__img {
+      border: 1px solid transparent;
+      transition: border-color 0.3s, filter 0.6s ease, box-shadow 0.3s;
+    }
+    .oj-s02__img:hover {
+      border-color: var(--dg);
+      box-shadow: 0 0 14px var(--dg-soft);
+      filter: grayscale(0%) brightness(0.82);
+    }
+
+    /* Price — color verde */
+    .oj-price {
+      color: var(--dg) !important;
+    }
+    .oj-price__currency { color: rgba(34,197,94,0.55); }
+
+    /* Size buttons */
+    .oj-size { border-color: #1c1c1c; transition: all 0.22s; }
+    .oj-size:hover {
+      color: var(--dg);
+      border-color: var(--dg);
+      box-shadow: 0 0 10px var(--dg-soft);
+    }
+    .oj-size.active {
+      background: transparent;
+      color: var(--dg);
+      border-color: var(--dg);
+      box-shadow: 0 0 14px var(--dg-glow);
+    }
+    .oj-size--unavail:hover { border-color: #1c1c1c; color: #2a2a2a; box-shadow: none; }
+
+    /* Form inputs */
+    .oj-field input {
+      border-color: #1c1c1c;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .oj-field input:focus {
+      border-color: var(--dg);
+      box-shadow: 0 0 10px var(--dg-soft);
+    }
+
+    /* Form submit + Nequi confirm — mismo estilo verde */
+    .oj-form-submit {
+      background: transparent;
+      color: var(--dg);
+      border: 1.5px solid var(--dg);
+      transition: background 0.3s, box-shadow 0.35s;
+    }
+    .oj-form-submit:hover:not(:disabled) {
+      background: var(--dg-soft);
+      box-shadow: 0 0 20px var(--dg-glow);
+    }
+    .oj-nequi-confirm {
+      background: transparent;
+      color: var(--dg);
+      border: 1.5px solid var(--dg);
+      transition: background 0.3s, box-shadow 0.35s;
+    }
+    .oj-nequi-confirm:hover {
+      background: var(--dg-soft);
+      box-shadow: 0 0 20px var(--dg-glow);
+    }
+
+    /* Nav buttons */
+    .oj-sec-nav__btn:hover:not(:disabled) {
+      color: var(--dg);
+    }
   </style>
 </head>
 
@@ -1496,8 +1621,7 @@
 
     <!-- S02 — REVEAL -->
     <div class="oj-sec oj-s02" id="oj-s02">
-      <p class="oj-eyebrow">DROP 01 — SUBMERGED</p>
-      <h2 class="oj-h2">Una pieza.<br>Diseñada para desaparecer.</h2>
+      <h2 class="oj-s02__drop-title">DROP 01<br>SUBMERGED</h2>
       <div class="oj-s02__grid">
         <div>
           <img class="oj-s02__img" src="assets/label-detail.jpg" alt="Detalle marquilla" loading="lazy">
@@ -1513,7 +1637,7 @@
         </div>
       </div>
       <p class="oj-s02__claim">7 días. 20 unidades.<br>Después desaparece.</p>
-      <button class="oj-cta" id="oj-s02-next">ELEGIR MI PIEZA</button>
+      <button class="oj-cta" id="oj-s02-next">ENTRA YA →</button>
       <div class="oj-sec-nav">
         <button class="oj-sec-nav__btn" id="s02-back">← ATRÁS</button>
         <button class="oj-sec-nav__btn" id="s02-fwd">SIGUIENTE →</button>
