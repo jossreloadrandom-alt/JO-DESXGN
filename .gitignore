@@ -1,0 +1,9 @@
+# Carpetas con repositorios propios
+JO$$ DESXGN/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Configuración local de Claude (puede tener rutas locales)
+.claude/settings.local.json
