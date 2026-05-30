@@ -1637,9 +1637,17 @@
     .s03-sizes-wrap.open {
       max-height: 200px; opacity: 1; margin-bottom: 20px;
     }
-    .s03-sizes-label {
-      font-size: 10px; letter-spacing: 0.38em; text-transform: uppercase;
-      color: #555; margin-bottom: 18px; display: block;
+    .s03-sizes-label { display: none; } /* movida al título principal */
+    .s03-talla-title {
+      font-size: clamp(13px,2vw,16px); font-weight: 300;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: #666; text-align: center;
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height 0.5s ease 0.1s, opacity 0.5s ease 0.1s;
+    }
+    .s03-sizes-wrap.open ~ * .s03-talla-title,
+    .s03-talla-title.show {
+      max-height: 40px; opacity: 1;
     }
     /* Price block */
     #oj-price-block {
@@ -1681,6 +1689,11 @@
       z-index: 20; white-space: nowrap;
       opacity: 0 !important; pointer-events: none !important;
       min-width: 0;
+      background: rgba(0,0,0,0.58) !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+      border: 1px solid rgba(34,197,94,0.45) !important;
+      color: #fff !important;
     }
     .s03-cta-overlay.armed {
       pointer-events: auto !important;
@@ -2129,7 +2142,7 @@
             <button class="oj-car-dot" data-idx="2"></button>
           </div>
         </div>
-        <button class="oj-polvo-btn" id="oj-s02-next">PÓLVORA</button>
+        <button class="oj-polvo-btn" id="oj-s02-next">ENTRAR</button>
       </div>
 
       <p class="oj-s02__claim">SOLO 20 UNIDADES — 7 DÍAS</p>
@@ -2145,7 +2158,8 @@
 
         <!-- Welcome -->
         <div class="s03-welcome" id="s03-welcome">
-          <p class="s03-welcome__text">Ahora selecciona tu favorita.</p>
+          <p class="s03-welcome__text" id="s03-welcome-text">Ahora selecciona tu favorita.</p>
+          <p class="s03-talla-title" id="s03-talla-title">Selecciona tu talla.</p>
         </div>
 
         <!-- Horizontal carousel -->
@@ -2702,6 +2716,11 @@
         var fwdBtn   = document.getElementById('s03-fwd');
         if (priceBlk) setTimeout(function () { priceBlk.classList.add('revealed'); }, 60);
         if (price)    setTimeout(function () { price.classList.add('shown'); }, 120);
+        /* mostrar título "Selecciona tu talla." */
+        var tallaTitle = document.getElementById('s03-talla-title');
+        var welcomeTxt = document.getElementById('s03-welcome-text');
+        if (tallaTitle) tallaTitle.classList.add('show');
+        if (welcomeTxt) welcomeTxt.style.opacity = '0';
         /* arm the preorder button — aparece sobre la imagen */
         if (preorder) {
           preorder.disabled = false;
@@ -2930,6 +2949,10 @@
             if (price)     { price.classList.remove('shown'); }
             if (preorder)  { preorder.disabled = true; preorder.classList.remove('armed'); }
             if (fwdBtn)    { fwdBtn.disabled = true; }
+            var tt = document.getElementById('s03-talla-title');
+            var wt = document.getElementById('s03-welcome-text');
+            if (tt) tt.classList.remove('show');
+            if (wt) wt.style.opacity = '1';
           }
 
           function applyTrack(pct, animate) {
