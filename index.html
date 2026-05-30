@@ -1383,6 +1383,25 @@
       opacity: 0;
       animation: ent-slideup 1s cubic-bezier(0.16,1,0.3,1) 0.4s both;
     }
+    .ent-ver-drop {
+      margin-top: 36px;
+      padding: 13px 36px;
+      background: transparent;
+      border: 1px solid rgba(240,240,240,0.25);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      cursor: pointer;
+      opacity: 0;
+      animation: ent-fadein 0.9s ease-out 1.4s both;
+      transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+    .ent-ver-drop:hover {
+      border-color: var(--green);
+      color: var(--green);
+      box-shadow: 0 0 18px var(--green-glow);
+    }
 
     /* ── STEP 2 ──────────────────────────────────────────────────── */
     .ent-gallery {
@@ -1476,6 +1495,345 @@
       .oj-sec { padding: 56px 18px 40px; }
       .oj-s02__grid { grid-template-columns: repeat(3, 1fr); gap: 4px; }
       .oj-gallery { max-width: 100%; }
+    }
+
+    /* ══ GLITCH TRANSITION OVERLAY ═════════════════════════════ */
+    #oj-glitch {
+      position: fixed; inset: 0; z-index: 9998;
+      background: #000; display: none; overflow: hidden;
+      pointer-events: none;
+    }
+    #oj-glitch.active { display: block; pointer-events: all; }
+    .glitch-scan {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(34,197,94,0.018) 3px,rgba(34,197,94,0.018) 4px);
+      pointer-events: none; z-index: 1;
+    }
+    .glitch-binary {
+      position: absolute; inset: 0; z-index: 2;
+      font-family: 'Space Mono','Courier New',monospace;
+      font-size: 12px; line-height: 1.55; word-break: break-all;
+      color: rgba(34,197,94,0.28); padding: 16px;
+      animation: gb-pulse 0.18s steps(1) infinite;
+    }
+    .glitch-rgb-a, .glitch-rgb-b {
+      position: absolute; inset: 0; z-index: 3;
+      font-family: 'Space Mono','Courier New',monospace;
+      font-size: 12px; line-height: 1.55; word-break: break-all;
+      padding: 16px; opacity: 0.18;
+    }
+    .glitch-rgb-a { color: rgba(255,0,80,0.5);  animation: glitch-slice-a 0.28s steps(1) infinite; }
+    .glitch-rgb-b { color: rgba(0,80,255,0.5);  animation: glitch-slice-b 0.28s steps(1) infinite; }
+    .glitch-msg {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 5; text-align: center; pointer-events: none;
+    }
+    .glitch-msg__line1 {
+      display: block;
+      font-size: clamp(9px,1.2vw,12px); letter-spacing: 0.45em;
+      text-transform: uppercase; color: rgba(34,197,94,0.6);
+      margin-bottom: 12px;
+      animation: gm-fade 1.9s ease-out forwards;
+    }
+    .glitch-msg__line2 {
+      display: block;
+      font-size: clamp(32px,8vw,72px); font-weight: 900;
+      letter-spacing: -0.03em; text-transform: uppercase;
+      color: #fff;
+      text-shadow: 3px 0 0 rgba(255,0,80,0.6), -3px 0 0 rgba(0,80,255,0.6), 0 0 40px rgba(34,197,94,0.4);
+      animation: gm-word 1.9s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    @keyframes gb-pulse   { 0%{opacity:1}50%{opacity:0.7}100%{opacity:1} }
+    @keyframes glitch-slice-a {
+      0%{clip-path:inset(20% 0 55% 0);transform:translateX(-6px)}
+      25%{clip-path:inset(70% 0 10% 0);transform:translateX(4px)}
+      50%{clip-path:inset(40% 0 35% 0);transform:translateX(-3px)}
+      75%{clip-path:inset(5% 0 80% 0);transform:translateX(5px)}
+      100%{clip-path:inset(55% 0 20% 0);transform:translateX(-4px)}
+    }
+    @keyframes glitch-slice-b {
+      0%{clip-path:inset(60% 0 15% 0);transform:translateX(5px)}
+      25%{clip-path:inset(10% 0 65% 0);transform:translateX(-5px)}
+      50%{clip-path:inset(80% 0 5% 0);transform:translateX(3px)}
+      75%{clip-path:inset(30% 0 45% 0);transform:translateX(-4px)}
+      100%{clip-path:inset(15% 0 60% 0);transform:translateX(6px)}
+    }
+    @keyframes gm-fade {
+      0%{opacity:0;transform:translateY(8px)} 20%{opacity:1;transform:none}
+      80%{opacity:1} 100%{opacity:0}
+    }
+    @keyframes gm-word {
+      0%{opacity:0;transform:scaleX(1.4) skewX(-8deg)}
+      12%{opacity:1;transform:scaleX(1) skewX(0)}
+      40%{transform:translateX(-4px) skewX(-1deg)}
+      55%{transform:translateX(4px) skewX(1deg)}
+      70%{transform:none}
+      85%{opacity:1} 100%{opacity:0}
+    }
+
+    /* ══ S03 — NEW SEQUENTIAL FLOW ══════════════════════════════ */
+    .s03-welcome {
+      text-align: center; margin-bottom: 40px;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .s03-welcome.visible { opacity: 1; transform: none; }
+    .s03-welcome__text {
+      font-size: clamp(13px,2vw,17px); font-weight: 300;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: #666;
+    }
+    .s03-refs {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 10px; width: 100%; max-width: 540px; margin: 0 auto 32px;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+    }
+    .s03-refs.visible { opacity: 1; transform: none; }
+    .s03-ref {
+      cursor: pointer; position: relative;
+      border: 1px solid #1a1a1a;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.25s;
+    }
+    .s03-ref:hover {
+      border-color: rgba(34,197,94,0.5);
+      box-shadow: 0 0 18px rgba(34,197,94,0.15);
+      transform: translateY(-3px);
+    }
+    .s03-ref.selected {
+      border-color: #22C55E;
+      box-shadow: 0 0 22px rgba(34,197,94,0.35);
+    }
+    .s03-ref__img-wrap { overflow: hidden; aspect-ratio: 3/4; }
+    .s03-ref__img-wrap img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      filter: grayscale(30%) brightness(0.7);
+      transition: filter 0.5s ease, transform 0.5s ease;
+    }
+    .s03-ref:hover .s03-ref__img-wrap img,
+    .s03-ref.selected .s03-ref__img-wrap img {
+      filter: grayscale(0%) brightness(0.85);
+      transform: scale(1.04);
+    }
+    .s03-ref__info {
+      padding: 10px 8px 12px;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+    }
+    .s03-ref__num {
+      font-size: 8px; letter-spacing: 0.4em; color: #22C55E;
+      text-transform: uppercase; font-weight: 700;
+    }
+    .s03-ref__name {
+      font-size: 11px; letter-spacing: 0.2em; color: #ccc;
+      text-transform: uppercase; font-weight: 700;
+    }
+    /* Size section — hidden, slides in */
+    .s03-sizes-wrap {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease;
+      opacity: 0; width: 100%; text-align: center; margin-bottom: 0;
+    }
+    .s03-sizes-wrap.open {
+      max-height: 200px; opacity: 1; margin-bottom: 20px;
+    }
+    .s03-sizes-label {
+      font-size: 10px; letter-spacing: 0.38em; text-transform: uppercase;
+      color: #555; margin-bottom: 18px; display: block;
+    }
+    /* Price block */
+    #oj-price-block {
+      min-height: 56px; margin: -8px 0 16px;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+    #oj-price-block.revealed { opacity: 1; transform: none; pointer-events: auto; }
+    /* Preorder button glow state */
+    #oj-preorder.armed {
+      opacity: 1 !important; cursor: pointer !important;
+      border-color: #22C55E;
+      box-shadow: 0 0 28px rgba(34,197,94,0.55), 0 0 6px rgba(34,197,94,0.3);
+      animation: preorder-pulse 2s ease-in-out infinite;
+    }
+    @keyframes preorder-pulse {
+      0%,100% { box-shadow: 0 0 28px rgba(34,197,94,0.55), 0 0 6px rgba(34,197,94,0.3); }
+      50%      { box-shadow: 0 0 44px rgba(34,197,94,0.8), 0 0 12px rgba(34,197,94,0.5); }
+    }
+    /* ══ S03 — COVERFLOW CAROUSEL ══════════════════════════════ */
+    .s03-car {
+      width: 100%; max-width: 420px;
+      margin: 0 auto 8px;
+      position: relative;
+      cursor: grab;
+    }
+    .s03-car.dragging { cursor: grabbing; }
+    /* viewport clips the sliding track */
+    .s03-car__viewport {
+      overflow: hidden;
+      position: relative;
+    }
+    /* ASEGURAR MI UNIDAD — centrado en la imagen */
+    .s03-cta-overlay {
+      position: absolute !important;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20; white-space: nowrap;
+      opacity: 0 !important; pointer-events: none !important;
+      min-width: 0;
+    }
+    .s03-cta-overlay.armed {
+      pointer-events: auto !important;
+      animation: cta-glitch-in 0.72s cubic-bezier(0.16,1,0.3,1) forwards !important;
+    }
+    @keyframes cta-glitch-in {
+      0%   { opacity:0; filter:brightness(0); transform:translate(-50%,-50%) scaleX(1.4) skewX(-6deg); }
+      10%  { opacity:1; filter:brightness(3); clip-path:inset(25% 0 45% 0);
+             transform:translate(-54%,-50%) scaleX(1.1);
+             text-shadow: 4px 0 0 rgba(255,0,80,0.8), -4px 0 0 rgba(0,100,255,0.7); }
+      22%  { clip-path:inset(55% 0 8% 0); transform:translate(-46%,-50%) scaleX(1.05);
+             text-shadow: -3px 0 0 rgba(255,0,80,0.6), 3px 0 0 rgba(0,100,255,0.5); }
+      34%  { clip-path:inset(8% 0 55% 0); transform:translate(-50%,-52%);
+             filter:brightness(1.8); }
+      48%  { clip-path:inset(0 0 0 0); transform:translate(-50%,-50%) scaleX(1);
+             filter:brightness(1);
+             text-shadow: 0 0 24px rgba(34,197,94,0.9); }
+      68%  { text-shadow: 0 0 14px rgba(34,197,94,0.6); opacity:1; }
+      100% { transform:translate(-50%,-50%); text-shadow:none;
+             filter:none; clip-path:none; opacity:1; }
+    }
+    .s03-car__track {
+      display: flex;
+      transition: transform 0.65s cubic-bezier(0.25,1,0.5,1);
+      will-change: transform;
+    }
+    .s03-car__track.no-transition { transition: none; }
+    /* Each slide: 76% wide → 12% of adjacent visible on each side */
+    .s03-slide {
+      flex: 0 0 76%;
+      padding: 0 6px;
+      position: relative;
+      transition: filter 0.55s ease, opacity 0.55s ease, transform 0.55s ease;
+      transform: scale(0.86);
+      transform-origin: center bottom;
+      filter: blur(2.5px) brightness(0.4);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .s03-slide.s03-active {
+      transform: scale(1);
+      filter: none;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .s03-slide__imgs {
+      position: relative;
+      width: 100%; aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #0a0a0a;
+      border-radius: 2px;
+    }
+    .s03-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+    .s03-img.s03-visible { opacity: 1; }
+    /* info bar below image */
+    .s03-info {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 4px; padding: 12px 0 6px;
+    }
+    .s03-info__num  { font-size: 10px; font-weight: 700; letter-spacing: 0.5em; color: #22C55E; text-transform: uppercase; line-height: 1; }
+    .s03-info__name { font-size: 22px; font-weight: 900; letter-spacing: 0.12em; color: #e8e8e8; text-transform: uppercase; line-height: 1; }
+    /* toggle — esquina inferior derecha de la imagen */
+    .s03-toggle-img {
+      position: absolute; bottom: 10px; right: 10px; z-index: 6;
+      padding: 6px 13px;
+      background: rgba(0,0,0,0.52);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: none;
+      color: rgba(255,255,255,0.45);
+      font-family: var(--font); font-size: 8px; font-weight: 600;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      cursor: pointer;
+      opacity: 0; pointer-events: none;
+      transition: color 0.25s, opacity 0.3s;
+    }
+    .s03-slide.s03-active .s03-toggle-img {
+      opacity: 1; pointer-events: auto;
+    }
+    .s03-toggle-img:hover { color: #22C55E; }
+    /* arrows — frosted glass, sin recuadro */
+    .s03-arrow {
+      position: absolute; top: 40%; transform: translateY(-50%);
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: none;
+      color: rgba(255,255,255,0.35); font-size: 16px;
+      cursor: pointer; z-index: 10;
+      transition: color 0.2s, background 0.2s;
+      overflow: hidden; /* contain spark */
+    }
+    .s03-arrow--prev { left: 4px; }
+    .s03-arrow--next { right: 4px; }
+    .s03-arrow:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.1); }
+    /* chispa verde */
+    .s03-spark {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(34,197,94,0.95) 0%, rgba(34,197,94,0) 70%);
+      transform: scale(0); opacity: 0;
+    }
+    .s03-spark.pop {
+      animation: spark-pop 0.48s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    @keyframes spark-pop {
+      0%   { transform: scale(0);   opacity: 1; }
+      45%  { transform: scale(2.2); opacity: 0.9; }
+      100% { transform: scale(4);   opacity: 0; }
+    }
+    /* dots */
+    .s03-dots {
+      display: flex; justify-content: center;
+      gap: 7px; margin-top: 10px;
+    }
+    .s03-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #1e1e1e; border: none; padding: 0; cursor: pointer;
+      transition: background 0.3s;
+    }
+    .s03-dot.s03-dot--on { background: #22C55E; }
+
+    /* PÓLVORA button on carousel */
+    .oj-polvo-wrap {
+      position: relative; width: 100%; max-width: 460px; margin: 0 auto;
+    }
+    .oj-polvo-btn {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 10;
+      font-family: var(--font); font-size: clamp(13px,2.2vw,16px);
+      font-weight: 900; letter-spacing: 0.35em; text-transform: uppercase;
+      color: #000; background: #22C55E;
+      border: none; padding: 16px 40px; cursor: pointer;
+      box-shadow: 0 0 32px rgba(34,197,94,0.6), 0 4px 20px rgba(0,0,0,0.5);
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+    .oj-polvo-btn:hover {
+      box-shadow: 0 0 52px rgba(34,197,94,0.9), 0 4px 24px rgba(0,0,0,0.6);
+      transform: translate(-50%,-50%) scale(1.04);
+    }
+    @media (max-width: 480px) {
+      .s03-refs { gap: 6px; }
+      .s03-ref__info { padding: 8px 4px 10px; }
     }
 
     /* ══ GREEN ACCENT SYSTEM — DROP overlay ════════════════════ */
@@ -1716,6 +2074,18 @@
 
 <body>
 
+  <!-- ── GLITCH TRANSITION OVERLAY ──────────────────────────── -->
+  <div id="oj-glitch" aria-hidden="true">
+    <div class="glitch-scan"></div>
+    <div class="glitch-binary" id="glitch-binary"></div>
+    <div class="glitch-rgb-a" id="glitch-rgb-a"></div>
+    <div class="glitch-rgb-b" id="glitch-rgb-b"></div>
+    <div class="glitch-msg">
+      <span class="glitch-msg__line1">// DROP 01 — SUBMERGED //</span>
+      <span class="glitch-msg__line2">SUBMERGED</span>
+    </div>
+  </div>
+
   <!-- ── OJ0$ DROP 01 — SUBMERGED ────────────────────────────── -->
   <div id="oj-overlay" role="dialog" aria-modal="true" aria-label="DROP 01 — SUBMERGED">
 
@@ -1734,80 +2104,129 @@
         <div class="oj-s02__drop01">DROP 01</div>
       </div>
 
-      <!-- Carousel -->
-      <div class="oj-carousel" id="oj-s02-carousel">
-        <div class="oj-carousel__track" id="s02-track">
-          <div class="oj-carousel__slide c-active">
-            <img src="assets/label-detail.jpg" alt="Detalle" loading="lazy">
-            <span class="oj-carousel__label">DETALLE</span>
+      <!-- Carousel + PÓLVORA button overlaid -->
+      <div class="oj-polvo-wrap">
+        <div class="oj-carousel" id="oj-s02-carousel">
+          <div class="oj-carousel__track" id="s02-track">
+            <div class="oj-carousel__slide c-active">
+              <img src="assets/label-detail.jpg" alt="Detalle" loading="lazy">
+              <span class="oj-carousel__label">DETALLE</span>
+            </div>
+            <div class="oj-carousel__slide">
+              <img src="assets/001-back.png" alt="VOID" loading="lazy">
+              <span class="oj-carousel__label">VOID</span>
+            </div>
+            <div class="oj-carousel__slide">
+              <img src="assets/003-back.jpg" alt="INVERTED" loading="lazy">
+              <span class="oj-carousel__label">INVERTED</span>
+            </div>
           </div>
-          <div class="oj-carousel__slide">
-            <img src="assets/001-back.png" alt="VOID" loading="lazy">
-            <span class="oj-carousel__label">VOID</span>
-          </div>
-          <div class="oj-carousel__slide">
-            <img src="assets/003-back.jpg" alt="INVERTED" loading="lazy">
-            <span class="oj-carousel__label">INVERTED</span>
+          <button class="oj-car-prev" id="s02-car-prev">←</button>
+          <button class="oj-car-next" id="s02-car-next">→</button>
+          <div class="oj-car-dots">
+            <button class="oj-car-dot c-active" data-idx="0"></button>
+            <button class="oj-car-dot" data-idx="1"></button>
+            <button class="oj-car-dot" data-idx="2"></button>
           </div>
         </div>
-        <button class="oj-car-prev" id="s02-car-prev">←</button>
-        <button class="oj-car-next" id="s02-car-next">→</button>
-        <div class="oj-car-dots">
-          <button class="oj-car-dot c-active" data-idx="0"></button>
-          <button class="oj-car-dot" data-idx="1"></button>
-          <button class="oj-car-dot" data-idx="2"></button>
-        </div>
+        <button class="oj-polvo-btn" id="oj-s02-next">PÓLVORA</button>
       </div>
 
       <p class="oj-s02__claim">SOLO 20 UNIDADES — 7 DÍAS</p>
-      <button class="oj-cta" id="oj-s02-next">PÓLVORA</button>
       <div class="oj-sec-nav">
         <button class="oj-sec-nav__btn" id="s02-back">← ATRÁS</button>
         <button class="oj-sec-nav__btn" id="s02-fwd">SIGUIENTE →</button>
       </div>
     </div>
 
-    <!-- S03 — PRODUCT -->
+    <!-- S03 — PRODUCT CAROUSEL -->
     <div class="oj-sec oj-s03" id="oj-s03">
       <div class="oj-s03__inner">
-        <p class="oj-eyebrow">Selecciona tu pieza</p>
 
-        <!-- Variant tabs -->
-        <div class="oj-tabs">
-          <button class="oj-tab active" data-variant="001">001 — VOID</button>
-          <button class="oj-tab" data-variant="002">002 — STATIC</button>
-          <button class="oj-tab" data-variant="003">003 — INVERTED</button>
+        <!-- Welcome -->
+        <div class="s03-welcome" id="s03-welcome">
+          <p class="s03-welcome__text">Ahora selecciona tu favorita.</p>
         </div>
 
-        <!-- Gallery -->
-        <div class="oj-gallery" id="oj-gallery">
-          <img class="oj-gallery__img front" id="gal-front" src="assets/001-front.png" alt="Front" loading="lazy">
-          <img class="oj-gallery__img back"  id="gal-back"  src="assets/001-back.png"  alt="Back"  loading="lazy">
-          <button class="oj-gallery__toggle" id="gal-toggle">VER FRENTE</button>
+        <!-- Horizontal carousel -->
+        <div class="s03-car" id="s03-car">
+
+          <!-- Viewport: clips the sliding track -->
+          <div class="s03-car__viewport">
+            <div class="s03-car__track" id="s03-track">
+
+              <div class="s03-slide s03-active" data-variant="001">
+                <div class="s03-slide__imgs">
+                  <img class="s03-img s03-img--back s03-visible" src="assets/001-back.png"  alt="VOID espalda"  loading="lazy">
+                  <img class="s03-img s03-img--front"            src="assets/001-front.png" alt="VOID frente"   loading="lazy">
+                  <button class="s03-toggle-img" data-slide="0">VER FRENTE</button>
+                </div>
+              </div>
+
+              <div class="s03-slide" data-variant="002">
+                <div class="s03-slide__imgs">
+                  <img class="s03-img s03-img--back s03-visible" src="assets/002-back.jpg"  alt="STATIC espalda" loading="lazy">
+                  <img class="s03-img s03-img--front"            src="assets/002-front.jpg" alt="STATIC frente"  loading="lazy">
+                  <button class="s03-toggle-img" data-slide="1">VER FRENTE</button>
+                </div>
+              </div>
+
+              <div class="s03-slide" data-variant="003">
+                <div class="s03-slide__imgs">
+                  <img class="s03-img s03-img--back s03-visible" src="assets/003-back.jpg"  alt="INVERTED espalda" loading="lazy">
+                  <img class="s03-img s03-img--front"            src="assets/003-front.jpg" alt="INVERTED frente"  loading="lazy">
+                  <button class="s03-toggle-img" data-slide="2">VER FRENTE</button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- CTA sobre la imagen — solo aparece al seleccionar talla -->
+            <button class="oj-cta s03-cta-overlay" id="oj-preorder" disabled>ASEGURAR MI UNIDAD</button>
+          </div>
+
+          <!-- Slide info bar -->
+          <div class="s03-info" id="s03-info">
+            <span class="s03-info__num" id="s03-num">001</span>
+            <span class="s03-info__name" id="s03-name">VOID</span>
+          </div>
+
+          <!-- Arrows — frosted glass + chispa -->
+          <button class="s03-arrow s03-arrow--prev" id="s03-prev">&#8592;<span class="s03-spark" id="spark-prev"></span></button>
+          <button class="s03-arrow s03-arrow--next" id="s03-next">&#8594;<span class="s03-spark" id="spark-next"></span></button>
+
+          <!-- Dots -->
+          <div class="s03-dots">
+            <button class="s03-dot s03-dot--on" data-i="0"></button>
+            <button class="s03-dot" data-i="1"></button>
+            <button class="s03-dot" data-i="2"></button>
+          </div>
         </div>
 
-        <!-- Price reveal -->
-        <div class="oj-price-block">
-          <p class="oj-price-pre" id="price-pre">Selecciona una talla para ver el precio</p>
+        <!-- Sizes (open by default on enter) -->
+        <div class="s03-sizes-wrap" id="s03-sizes-wrap">
+          <span class="s03-sizes-label">Selecciona tu talla.</span>
+          <div class="oj-sizes" id="oj-sizes">
+            <button class="oj-size" data-size="XS">XS</button>
+            <button class="oj-size" data-size="S">S</button>
+            <button class="oj-size" data-size="M">M</button>
+            <button class="oj-size" data-size="L">L</button>
+            <button class="oj-size" data-size="XL">XL</button>
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div id="oj-price-block">
           <div class="oj-price" id="oj-price">
             <span class="oj-price__currency">COP</span> 58.000
           </div>
         </div>
 
-        <!-- Size selector -->
-        <div class="oj-sizes" id="oj-sizes">
-          <button class="oj-size" data-size="XS">XS</button>
-          <button class="oj-size" data-size="S">S</button>
-          <button class="oj-size" data-size="M">M</button>
-          <button class="oj-size" data-size="L">L</button>
-          <button class="oj-size" data-size="XL">XL</button>
+        <div class="oj-sec-nav">
+          <button class="oj-sec-nav__btn" id="s03-back">&#8592; ATRÁS</button>
+          <button class="oj-sec-nav__btn" id="s03-fwd" disabled>SIGUIENTE &#8594;</button>
         </div>
 
-        <button class="oj-cta" id="oj-preorder" disabled style="opacity:0.3;cursor:not-allowed">ASEGURAR MI UNIDAD</button>
-        <div class="oj-sec-nav">
-          <button class="oj-sec-nav__btn" id="s03-back">← ATRÁS</button>
-          <button class="oj-sec-nav__btn" id="s03-fwd" disabled>SIGUIENTE →</button>
-        </div>
       </div>
     </div>
 
@@ -1905,6 +2324,7 @@
         <div class="ent-s1-content" id="ent-s1-content">
           <img class="ent-s1-img" src="assets/logo.png" alt="OJ0$$" loading="eager">
           <div class="ent-s1-word">OJ0$$</div>
+          <button class="ent-ver-drop" id="ent-ver-drop">VER DROP →</button>
         </div>
       </div>
 
@@ -2262,26 +2682,9 @@
       function switchVariant(v) {
         currentVariant = v;
         currentSize    = null;
-        document.querySelectorAll('.oj-tab').forEach(function (t) {
-          t.classList.toggle('active', t.dataset.variant === v);
-        });
-        var gf = document.getElementById('gal-front');
-        var gb = document.getElementById('gal-back');
-        var gallery = document.getElementById('oj-gallery');
-        if (gf) gf.src = variants[v].front;
-        if (gb) gb.src = variants[v].back;
-        if (gallery) gallery.classList.remove('show-front');
-        var tog = document.getElementById('gal-toggle');
-        if (tog) tog.textContent = 'VER FRENTE';
-
-        // Reset price & sizes
-        var price    = document.getElementById('oj-price');
-        var pricePre = document.getElementById('price-pre');
-        var preorder = document.getElementById('oj-preorder');
-        if (price)    price.classList.remove('shown');
-        if (pricePre) pricePre.style.display = 'block';
         document.querySelectorAll('.oj-size').forEach(function (s) { s.classList.remove('active'); });
-        if (preorder) { preorder.disabled = true; preorder.style.opacity = '0.3'; preorder.style.cursor = 'not-allowed'; }
+        var pre = document.getElementById('oj-preorder');
+        if (pre) { pre.disabled = true; pre.classList.remove('armed'); }
         var fwdReset = document.getElementById('s03-fwd');
         if (fwdReset) { fwdReset.disabled = true; }
       }
@@ -2292,14 +2695,18 @@
         document.querySelectorAll('.oj-size').forEach(function (btn) {
           btn.classList.toggle('active', btn.dataset.size === s);
         });
-        // Reveal price
+        /* reveal price block */
+        var priceBlk = document.getElementById('oj-price-block');
         var price    = document.getElementById('oj-price');
-        var pricePre = document.getElementById('price-pre');
         var preorder = document.getElementById('oj-preorder');
-        if (pricePre) pricePre.style.display = 'none';
-        if (price)    setTimeout(function () { price.classList.add('shown'); }, 60);
-        if (preorder) { preorder.disabled = false; preorder.style.opacity = '1'; preorder.style.cursor = 'pointer'; }
-        var fwdBtn = document.getElementById('s03-fwd');
+        var fwdBtn   = document.getElementById('s03-fwd');
+        if (priceBlk) setTimeout(function () { priceBlk.classList.add('revealed'); }, 60);
+        if (price)    setTimeout(function () { price.classList.add('shown'); }, 120);
+        /* arm the preorder button — aparece sobre la imagen */
+        if (preorder) {
+          preorder.disabled = false;
+          setTimeout(function () { preorder.classList.add('armed'); }, 180);
+        }
         if (fwdBtn) { fwdBtn.disabled = false; }
       }
 
@@ -2390,16 +2797,72 @@
           updatePressure();
         }
 
+        /* ── GLITCH TRANSITION ──────────────────────────────────── */
+        function triggerGlitch(cb) {
+          var overlay = document.getElementById('oj-glitch');
+          var binEl   = document.getElementById('glitch-binary');
+          var rgbA    = document.getElementById('glitch-rgb-a');
+          var rgbB    = document.getElementById('glitch-rgb-b');
+          if (!overlay) { cb && cb(); return; }
+
+          /* generate random binary text */
+          function makeBin(n) {
+            var s = '';
+            for (var i = 0; i < n; i++) s += (Math.random() > 0.5 ? '1' : '0') + (i % 80 === 79 ? '\n' : ' ');
+            return s;
+          }
+          var bin = makeBin(1200);
+          if (binEl) { binEl.textContent = bin; }
+          if (rgbA)  { rgbA.textContent  = bin; }
+          if (rgbB)  { rgbB.textContent  = bin; }
+
+          overlay.classList.add('active');
+
+          /* flicker binary text while visible */
+          var flicker = setInterval(function () {
+            var b = makeBin(1200);
+            if (binEl) binEl.textContent = b;
+            if (rgbA)  rgbA.textContent  = b;
+            if (rgbB)  rgbB.textContent  = b;
+          }, 80);
+
+          /* after 1.85s call the callback and clean up */
+          setTimeout(function () {
+            clearInterval(flicker);
+            overlay.classList.remove('active');
+            cb && cb();
+          }, 1850);
+        }
+
+        /* ── S03 ENTER ANIMATION ─────────────────────────────────── */
+        function enterS03() {
+          goTo('oj-s03');
+          /* reset carousel to slide 0 */
+          if (window._s03ResetCarousel) window._s03ResetCarousel();
+          /* animate welcome in */
+          setTimeout(function () {
+            var w = document.getElementById('s03-welcome');
+            if (w) w.classList.add('visible');
+          }, 80);
+          /* open sizes immediately */
+          setTimeout(function () {
+            var sizesWrap = document.getElementById('s03-sizes-wrap');
+            if (sizesWrap) sizesWrap.classList.add('open');
+          }, 300);
+        }
+
         /* S02 — NEXT + nav */
         var s02Next = document.getElementById('oj-s02-next');
-        if (s02Next) s02Next.addEventListener('click', function () { goTo('oj-s03'); });
+        if (s02Next) s02Next.addEventListener('click', function () {
+          triggerGlitch(enterS03);
+        });
         var s02Back = document.getElementById('s02-back');
         if (s02Back) s02Back.addEventListener('click', function () {
           goTo('oj-s01');
           runEntrySequence();
         });
         var s02Fwd = document.getElementById('s02-fwd');
-        if (s02Fwd) s02Fwd.addEventListener('click', function () { goTo('oj-s03'); });
+        if (s02Fwd) s02Fwd.addEventListener('click', function () { triggerGlitch(enterS03); });
 
         /* ── S02 CAROUSEL ──────────────────────────────────────── */
         (function () {
@@ -2439,10 +2902,185 @@
           startAuto();
         })();
 
-        /* S03 — VARIANT TABS */
-        document.querySelectorAll('.oj-tab').forEach(function (tab) {
-          tab.addEventListener('click', function () { switchVariant(tab.dataset.variant); });
-        });
+        /* ── S03 COVERFLOW CAROUSEL ────────────────────────────── */
+        (function () {
+          var car    = document.getElementById('s03-car');
+          var track  = document.getElementById('s03-track');
+          var slides = track ? Array.from(track.querySelectorAll('.s03-slide')) : [];
+          var dots   = Array.from(document.querySelectorAll('.s03-dot'));
+          var total  = slides.length;
+          var cur    = 0;
+          var showingFront = false;
+
+          var INFO_NAMES = ['VOID','STATIC','INVERTED'];
+          var INFO_NUMS  = ['001','002','003'];
+
+          /* slide width % (must match CSS flex: 0 0 76%) */
+          var SLIDE_W = 76;
+          /* offset to center slide 0: (100 - 76) / 2 = 12 */
+          var ORIGIN  = (100 - SLIDE_W) / 2;
+
+          function resetSizes() {
+            document.querySelectorAll('.oj-size').forEach(function (b) { b.classList.remove('active'); });
+            var priceBlk = document.getElementById('oj-price-block');
+            var price    = document.getElementById('oj-price');
+            var preorder = document.getElementById('oj-preorder');
+            var fwdBtn   = document.getElementById('s03-fwd');
+            if (priceBlk)  { priceBlk.classList.remove('revealed'); }
+            if (price)     { price.classList.remove('shown'); }
+            if (preorder)  { preorder.disabled = true; preorder.classList.remove('armed'); }
+            if (fwdBtn)    { fwdBtn.disabled = true; }
+          }
+
+          function applyTrack(pct, animate) {
+            if (!animate) track.classList.add('no-transition');
+            track.style.transform = 'translateX(' + pct + '%)';
+            if (!animate) {
+              track.getBoundingClientRect(); /* force reflow */
+              track.classList.remove('no-transition');
+            }
+          }
+
+          function goS03Slide(n, animated) {
+            cur = Math.max(0, Math.min(total - 1, ((n % total) + total) % total));
+            var pct = ORIGIN - cur * SLIDE_W;
+            applyTrack(pct, animated !== false);
+
+            /* active class for blur/scale */
+            slides.forEach(function (sl, i) { sl.classList.toggle('s03-active', i === cur); });
+            dots.forEach(function (d, i) { d.classList.toggle('s03-dot--on', i === cur); });
+
+            /* info bar */
+            var num  = document.getElementById('s03-num');
+            var name = document.getElementById('s03-name');
+            if (num)  num.textContent  = INFO_NUMS[cur];
+            if (name) name.textContent = INFO_NAMES[cur];
+
+            /* reset view to back on slide change */
+            showingFront = false;
+            slides.forEach(function (sl) {
+              sl.querySelectorAll('.s03-img').forEach(function (img) { img.classList.remove('s03-visible'); });
+              sl.querySelector('.s03-img--back').classList.add('s03-visible');
+              var tb = sl.querySelector('.s03-toggle-img');
+              if (tb) tb.textContent = 'VER FRENTE';
+            });
+
+            switchVariant(slides[cur].dataset.variant);
+            resetSizes();
+          }
+
+          /* ── MOUSE DRAG ─────────────────────────────────────── */
+          var dragStartX = null;
+          var dragLive   = false;
+          var dragOriginPct = ORIGIN;
+
+          if (car) {
+            car.addEventListener('mousedown', function (e) {
+              e.preventDefault();
+              dragStartX = e.clientX;
+              dragLive = true;
+              dragOriginPct = ORIGIN - cur * SLIDE_W;
+              car.classList.add('dragging');
+              track.classList.add('no-transition');
+            });
+            document.addEventListener('mousemove', function (e) {
+              if (!dragLive) return;
+              var dx = e.clientX - dragStartX;
+              /* live drag: shift track by pixel → convert to % of car width */
+              var carW = car.offsetWidth;
+              var shiftPct = (dx / carW) * 100;
+              track.style.transform = 'translateX(' + (dragOriginPct + shiftPct) + '%)';
+            });
+            document.addEventListener('mouseup', function (e) {
+              if (!dragLive) return;
+              dragLive = false;
+              car.classList.remove('dragging');
+              track.classList.remove('no-transition');
+              var dx = e.clientX - dragStartX;
+              if (Math.abs(dx) > 36) {
+                goS03Slide(cur + (dx < 0 ? 1 : -1));
+              } else {
+                goS03Slide(cur); /* snap back */
+              }
+              dragStartX = null;
+            });
+          }
+
+          /* ── TOUCH SWIPE ────────────────────────────────────── */
+          var touchX0 = null;
+          if (track) {
+            track.addEventListener('touchstart', function (e) {
+              touchX0 = e.touches[0].clientX;
+            }, { passive: true });
+            track.addEventListener('touchmove', function (e) {
+              if (touchX0 === null) return;
+              var dx = e.touches[0].clientX - touchX0;
+              var carW = car ? car.offsetWidth : 360;
+              var shiftPct = (dx / carW) * 100;
+              track.classList.add('no-transition');
+              track.style.transform = 'translateX(' + (ORIGIN - cur * SLIDE_W + shiftPct) + '%)';
+              track.getBoundingClientRect();
+              track.classList.remove('no-transition');
+            }, { passive: true });
+            track.addEventListener('touchend', function (e) {
+              if (touchX0 === null) return;
+              var dx = e.changedTouches[0].clientX - touchX0;
+              if (Math.abs(dx) > 36) goS03Slide(cur + (dx < 0 ? 1 : -1));
+              else goS03Slide(cur);
+              touchX0 = null;
+            }, { passive: true });
+          }
+
+          /* ── CHISPA ─────────────────────────────────────────── */
+          function fireSpark(sparkEl) {
+            if (!sparkEl) return;
+            sparkEl.classList.remove('pop');
+            sparkEl.getBoundingClientRect();
+            sparkEl.classList.add('pop');
+            sparkEl.addEventListener('animationend', function () {
+              sparkEl.classList.remove('pop');
+            }, { once: true });
+          }
+
+          /* ── ARROWS ─────────────────────────────────────────── */
+          var prevBtn   = document.getElementById('s03-prev');
+          var nextBtn   = document.getElementById('s03-next');
+          var sparkPrev = document.getElementById('spark-prev');
+          var sparkNext = document.getElementById('spark-next');
+          if (prevBtn) prevBtn.addEventListener('click', function () {
+            fireSpark(sparkPrev);
+            goS03Slide(cur - 1);
+          });
+          if (nextBtn) nextBtn.addEventListener('click', function () {
+            fireSpark(sparkNext);
+            goS03Slide(cur + 1);
+          });
+
+          /* ── DOTS ───────────────────────────────────────────── */
+          dots.forEach(function (dot) {
+            dot.addEventListener('click', function () { goS03Slide(parseInt(dot.dataset.i, 10)); });
+          });
+
+          /* ── TOGGLE FRENTE / ESPALDA (per-slide button) ─────── */
+          document.querySelectorAll('.s03-toggle-img').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+              e.stopPropagation();
+              var idx = parseInt(btn.dataset.slide, 10);
+              if (idx !== cur) return;
+              showingFront = !showingFront;
+              var slide = slides[cur];
+              slide.querySelector('.s03-img--back').classList.toggle('s03-visible', !showingFront);
+              slide.querySelector('.s03-img--front').classList.toggle('s03-visible', showingFront);
+              btn.textContent = showingFront ? 'VER ESPALDA' : 'VER FRENTE';
+            });
+          });
+
+          /* initial position (no animation) */
+          goS03Slide(0, false);
+
+          /* expose for reset */
+          window._s03ResetCarousel = function () { goS03Slide(0, false); };
+        })();
 
         /* S03 — GALLERY TOGGLE */
         var galToggle = document.getElementById('gal-toggle');
@@ -2517,6 +3155,8 @@
       }
       var entBtn = document.getElementById('ent-enter');
       if (entBtn) entBtn.addEventListener('click', dismissEntrance);
+      var verDropBtn = document.getElementById('ent-ver-drop');
+      if (verDropBtn) verDropBtn.addEventListener('click', dismissEntrance);
 
       /* ── PARALLAX — STEP 1 ───────────────────────────────────── */
       var entS1Content = document.getElementById('ent-s1-content');
