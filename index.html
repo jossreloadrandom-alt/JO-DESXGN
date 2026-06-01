@@ -1497,6 +1497,88 @@
       .oj-gallery { max-width: 100%; }
     }
 
+    /* ══ S03 SECTION FLASH — ASEGURAR click ════════════════════ */
+    #s03-flash {
+      position: fixed; inset: 0; z-index: 9997;
+      display: none; pointer-events: none; overflow: hidden;
+    }
+    #s03-flash.active { display: block; }
+    .s03f-scan {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg,transparent,transparent 3px,
+        rgba(34,197,94,0.06) 3px,rgba(34,197,94,0.06) 4px);
+      animation: s3f-scan-move 0.08s linear infinite;
+    }
+    @keyframes s3f-scan-move { from{background-position:0 0} to{background-position:0 8px} }
+    .s03f-green {
+      position: absolute; inset: 0;
+      background: rgba(34,197,94,0);
+      animation: s3f-green 1.35s ease-out forwards;
+    }
+    @keyframes s3f-green {
+      0%   { background: rgba(34,197,94,0); }
+      6%   { background: rgba(34,197,94,0.92); }
+      12%  { background: rgba(255,255,255,0.75); }
+      18%  { background: rgba(34,197,94,0.45); }
+      26%  { background: rgba(255,255,255,0.85); }
+      34%  { background: rgba(34,197,94,0.2); }
+      44%  { background: rgba(0,0,0,0.5); }
+      55%  { background: rgba(34,197,94,0.08); }
+      70%  { background: rgba(0,0,0,0.85); }
+      100% { background: rgba(0,0,0,1); }
+    }
+    .s03f-rgb-a {
+      position: absolute; inset: 0;
+      background: rgba(255,0,80,0.12);
+      animation: s3f-rgb-a 1.35s steps(1) forwards;
+    }
+    .s03f-rgb-b {
+      position: absolute; inset: 0;
+      background: rgba(0,80,255,0.12);
+      animation: s3f-rgb-b 1.35s steps(1) forwards;
+    }
+    @keyframes s3f-rgb-a {
+      0%{clip-path:inset(0 0 100% 0)}
+      8%{clip-path:inset(20% 0 40% 0);transform:translateX(-8px)}
+      16%{clip-path:inset(55% 0 10% 0);transform:translateX(6px)}
+      24%{clip-path:inset(5% 0 70% 0);transform:translateX(-5px)}
+      35%{clip-path:inset(0 0 0 0);transform:none}
+      55%{opacity:0.5} 100%{opacity:0}
+    }
+    @keyframes s3f-rgb-b {
+      0%{clip-path:inset(0 0 100% 0)}
+      8%{clip-path:inset(60% 0 15% 0);transform:translateX(7px)}
+      16%{clip-path:inset(10% 0 55% 0);transform:translateX(-6px)}
+      24%{clip-path:inset(75% 0 5% 0);transform:translateX(4px)}
+      35%{clip-path:inset(0 0 0 0);transform:none}
+      55%{opacity:0.5} 100%{opacity:0}
+    }
+    .s03f-msg {
+      position: absolute; top:50%; left:50%;
+      transform: translate(-50%,-50%);
+      text-align: center; pointer-events: none;
+      animation: s3f-msg 1.35s ease-out forwards;
+    }
+    .s03f-msg__top {
+      display: block; font-size: 9px; letter-spacing: 0.55em;
+      text-transform: uppercase; color: #000; font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .s03f-msg__big {
+      display: block; font-size: clamp(28px,8vw,56px);
+      font-weight: 900; letter-spacing: -0.03em;
+      text-transform: uppercase; color: #000;
+      text-shadow: 3px 0 0 rgba(255,0,80,0.5), -3px 0 0 rgba(0,80,255,0.5);
+    }
+    @keyframes s3f-msg {
+      0%  {opacity:0}
+      8%  {opacity:1}
+      30% {opacity:1; text-shadow:none}
+      50% {opacity:0.6}
+      70% {opacity:0}
+      100%{opacity:0}
+    }
+
     /* ══ GLITCH TRANSITION OVERLAY ═════════════════════════════ */
     #oj-glitch {
       position: fixed; inset: 0; z-index: 9998;
@@ -2123,6 +2205,18 @@
 </head>
 
 <body>
+
+  <!-- ── S03 SECTION FLASH ───────────────────────────────────── -->
+  <div id="s03-flash" aria-hidden="true">
+    <div class="s03f-scan"></div>
+    <div class="s03f-green"></div>
+    <div class="s03f-rgb-a"></div>
+    <div class="s03f-rgb-b"></div>
+    <div class="s03f-msg">
+      <span class="s03f-msg__top">// UNIDAD ASEGURADA //</span>
+      <span class="s03f-msg__big" id="s03f-variant">VOID</span>
+    </div>
+  </div>
 
   <!-- ── GLITCH TRANSITION OVERLAY ──────────────────────────── -->
   <div id="oj-glitch" aria-hidden="true">
@@ -3189,13 +3283,35 @@
         /* S03 — BACK + PREORDER → FORM */
         var s03Back = document.getElementById('s03-back');
         if (s03Back) s03Back.addEventListener('click', function () { goTo('oj-s02'); });
+        /* ── S03 FLASH on ASEGURAR click ──────────────────────── */
+        function fireS03Flash(cb) {
+          var flash = document.getElementById('s03-flash');
+          var variantEl = document.getElementById('s03f-variant');
+          if (variantEl) variantEl.textContent = currentVariant === '001' ? 'VOID' : currentVariant === '002' ? 'STATIC' : 'INVERTED';
+          if (!flash) { cb && cb(); return; }
+          /* reset animations by replacing element's class */
+          flash.classList.remove('active');
+          void flash.offsetWidth; /* reflow */
+          flash.classList.add('active');
+          /* re-trigger child animations */
+          flash.querySelectorAll('[class^="s03f-"]').forEach(function(el){
+            el.style.animation = 'none';
+            void el.offsetWidth;
+            el.style.animation = '';
+          });
+          setTimeout(function () {
+            flash.classList.remove('active');
+            cb && cb();
+          }, 1380);
+        }
+
         var s03Fwd = document.getElementById('s03-fwd');
         var preorderBtn = document.getElementById('oj-preorder');
         if (preorderBtn) preorderBtn.addEventListener('click', function () {
-          if (!preorderBtn.disabled) goTo('oj-s05');
+          if (!preorderBtn.disabled) fireS03Flash(function(){ goTo('oj-s05'); });
         });
         if (s03Fwd) s03Fwd.addEventListener('click', function () {
-          if (!s03Fwd.disabled) goTo('oj-s05');
+          if (!s03Fwd.disabled) fireS03Flash(function(){ goTo('oj-s05'); });
         });
 
         /* S05 — BACK + FORM SUBMIT */
