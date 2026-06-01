@@ -1579,11 +1579,48 @@
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
     .s03-welcome.visible { opacity: 1; transform: none; }
-    .s03-welcome__text {
-      font-size: clamp(13px,2vw,17px); font-weight: 300;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: #666;
+
+    /* Título grande SELECCIONA */
+    .s03-title-big {
+      font-size: clamp(52px,16vw,108px); font-weight: 900;
+      letter-spacing: -0.04em; text-transform: uppercase;
+      color: #fff; line-height: 0.85;
+      opacity: 0; transform: translateY(28px) scaleX(1.06);
+      transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.55s cubic-bezier(0.16,1,0.3,1);
     }
+    .s03-title-big.in { opacity: 1; transform: none; }
+
+    /* Línea separadora verde */
+    .s03-title-line {
+      width: 0; height: 1px; background: #22C55E;
+      margin: 14px auto 12px;
+      transition: width 0.45s ease 0.45s;
+      box-shadow: 0 0 8px rgba(34,197,94,0.6);
+    }
+    .s03-title-line.in { width: 48px; }
+
+    /* Subtítulo TU DISEÑO FAVORITA */
+    .s03-title-small {
+      font-size: clamp(9px,1.4vw,11px); font-weight: 400;
+      letter-spacing: 0.44em; text-transform: uppercase;
+      color: #555;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.5s ease 0.72s, transform 0.5s ease 0.72s;
+    }
+    .s03-title-small.in { opacity: 1; transform: none; }
+
+    /* Size buttons — glow cuando hay camisa seleccionada */
+    .oj-size.ready {
+      border-color: rgba(34,197,94,0.4);
+      color: rgba(34,197,94,0.65);
+      animation: size-ready 1.8s ease-in-out infinite;
+    }
+    @keyframes size-ready {
+      0%,100% { box-shadow: 0 0 0 rgba(34,197,94,0); }
+      50%      { box-shadow: 0 0 10px rgba(34,197,94,0.35); }
+    }
+    .oj-size.ready.active { animation: none; }
     .s03-refs {
       display: grid; grid-template-columns: repeat(3,1fr);
       gap: 10px; width: 100%; max-width: 540px; margin: 0 auto 32px;
@@ -2158,7 +2195,9 @@
 
         <!-- Welcome -->
         <div class="s03-welcome" id="s03-welcome">
-          <p class="s03-welcome__text" id="s03-welcome-text">Ahora selecciona tu favorita.</p>
+          <div class="s03-title-big"  id="s03-title-big">SELECCIONA</div>
+          <div class="s03-title-line" id="s03-title-line"></div>
+          <div class="s03-title-small" id="s03-title-small">TU DISEÑO FAVORITA</div>
           <p class="s03-talla-title" id="s03-talla-title">Selecciona tu talla.</p>
         </div>
 
@@ -2714,13 +2753,11 @@
         var price    = document.getElementById('oj-price');
         var preorder = document.getElementById('oj-preorder');
         var fwdBtn   = document.getElementById('s03-fwd');
-        if (priceBlk) setTimeout(function () { priceBlk.classList.add('revealed'); }, 60);
-        if (price)    setTimeout(function () { price.classList.add('shown'); }, 120);
-        /* mostrar título "Selecciona tu talla." */
+        /* precio ya visible — solo mostrar talla title */
         var tallaTitle = document.getElementById('s03-talla-title');
-        var welcomeTxt = document.getElementById('s03-welcome-text');
         if (tallaTitle) tallaTitle.classList.add('show');
-        if (welcomeTxt) welcomeTxt.style.opacity = '0';
+        /* quitar glow de tallas al seleccionar una */
+        document.querySelectorAll('.oj-size').forEach(function(b){ b.classList.remove('ready'); });
         /* arm the preorder button — aparece sobre la imagen */
         if (preorder) {
           preorder.disabled = false;
@@ -2856,18 +2893,38 @@
         /* ── S03 ENTER ANIMATION ─────────────────────────────────── */
         function enterS03() {
           goTo('oj-s03');
+          /* reset title */
+          ['s03-title-big','s03-title-line','s03-title-small','s03-talla-title'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.classList.remove('in','show');
+          });
           /* reset carousel to slide 0 */
           if (window._s03ResetCarousel) window._s03ResetCarousel();
-          /* animate welcome in */
+          /* fade welcome container in */
           setTimeout(function () {
             var w = document.getElementById('s03-welcome');
             if (w) w.classList.add('visible');
-          }, 80);
-          /* open sizes immediately */
+          }, 60);
+          /* animate SELECCIONA */
+          setTimeout(function () {
+            var big = document.getElementById('s03-title-big');
+            if (big) big.classList.add('in');
+          }, 120);
+          /* animate line */
+          setTimeout(function () {
+            var line = document.getElementById('s03-title-line');
+            if (line) line.classList.add('in');
+          }, 420);
+          /* animate TU DISEÑO FAVORITA */
+          setTimeout(function () {
+            var small = document.getElementById('s03-title-small');
+            if (small) small.classList.add('in');
+          }, 780);
+          /* open sizes */
           setTimeout(function () {
             var sizesWrap = document.getElementById('s03-sizes-wrap');
             if (sizesWrap) sizesWrap.classList.add('open');
-          }, 300);
+          }, 350);
         }
 
         /* S02 — NEXT + nav */
@@ -2940,19 +2997,25 @@
           var ORIGIN  = (100 - SLIDE_W) / 2;
 
           function resetSizes() {
-            document.querySelectorAll('.oj-size').forEach(function (b) { b.classList.remove('active'); });
-            var priceBlk = document.getElementById('oj-price-block');
-            var price    = document.getElementById('oj-price');
+            /* quitar talla activa + glow + preorder */
+            document.querySelectorAll('.oj-size').forEach(function (b) { b.classList.remove('active','ready'); });
             var preorder = document.getElementById('oj-preorder');
             var fwdBtn   = document.getElementById('s03-fwd');
-            if (priceBlk)  { priceBlk.classList.remove('revealed'); }
-            if (price)     { price.classList.remove('shown'); }
             if (preorder)  { preorder.disabled = true; preorder.classList.remove('armed'); }
             if (fwdBtn)    { fwdBtn.disabled = true; }
+            /* esconder talla-title */
             var tt = document.getElementById('s03-talla-title');
-            var wt = document.getElementById('s03-welcome-text');
             if (tt) tt.classList.remove('show');
-            if (wt) wt.style.opacity = '1';
+          }
+
+          function activatePriceAndSizes() {
+            /* mostrar precio al seleccionar camiseta */
+            var priceBlk = document.getElementById('oj-price-block');
+            var price    = document.getElementById('oj-price');
+            if (priceBlk) setTimeout(function(){ priceBlk.classList.add('revealed'); }, 80);
+            if (price)    setTimeout(function(){ price.classList.add('shown'); }, 140);
+            /* glow en botones de talla */
+            document.querySelectorAll('.oj-size').forEach(function(b){ b.classList.add('ready'); });
           }
 
           function applyTrack(pct, animate) {
@@ -2990,6 +3053,7 @@
 
             switchVariant(slides[cur].dataset.variant);
             resetSizes();
+            activatePriceAndSizes();
           }
 
           /* ── MOUSE DRAG ─────────────────────────────────────── */
