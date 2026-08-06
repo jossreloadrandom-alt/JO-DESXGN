@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="JOSS DESXGN — Estudio creativo. Diseño, branding y contenido visual para marcas que quieren decir algo real. Cucuta, Colombia.">
+  <meta name="description" content="JOSS DESXGN — Estudio creativo. Intervenimos identidades de marca. Para organizaciones que quieren decir lo que realmente son. Cúcuta, Colombia.">
   <title>JOSS DESXGN — Estudio Creativo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,8 +88,8 @@
       transition: transform 0.45s cubic-bezier(0.25,1,0.5,1);
       text-decoration: none; color: inherit;
     }
-    /* JOSS — condensed, dominant, heavy */
-    .nav__logo-joss {
+    /* JOSS — primary mark */
+    .nav__logo-mark {
       font-family: 'Barlow Condensed', 'Inter', sans-serif;
       font-size: clamp(24px, 2.4vw, 30px);
       font-weight: 800;
@@ -99,8 +99,8 @@
       line-height: 1;
       transition: text-shadow 0.35s ease;
     }
-    /* DESXGN — lighter, expanded tracking */
-    .nav__logo-desxgn {
+    /* DESXGN — studio identifier */
+    .nav__logo-sub {
       font-family: 'Barlow Condensed', 'Inter', sans-serif;
       font-size: clamp(7px, 0.75vw, 9px);
       font-weight: 600;
@@ -111,11 +111,10 @@
       line-height: 1;
       margin-top: 4px;
     }
-    /* Green glow on hover — JOSS only to keep DESXGN steady */
-    .nav__logo:hover .nav__logo-joss {
+    .nav__logo:hover .nav__logo-mark {
       text-shadow: 0 0 16px var(--green-glow), 0 0 40px rgba(34,197,94,0.12);
     }
-    .nav__logo:hover .nav__logo-desxgn {
+    .nav__logo:hover .nav__logo-sub {
       opacity: 1;
       color: var(--green);
       transition: color 0.3s, opacity 0.3s;
@@ -882,6 +881,122 @@
     }
     .form-submit { border-radius: 0; }
 
+    /* ── SKIN SYSTEM™ ──────────────────────────────────────────── */
+    .skin-system { background: #030303; border-top: 1px solid #080808; }
+    .skin-header { padding-bottom: 72px; max-width: 680px; }
+    .skin-badge {
+      display: block;
+      font-size: 9px; letter-spacing: 0.45em;
+      text-transform: uppercase; color: #2a2a2a;
+      margin-bottom: 40px;
+    }
+    .skin-title {
+      font-size: clamp(40px, 7vw, 80px);
+      font-weight: 800; letter-spacing: -0.04em;
+      line-height: 0.95; color: var(--white);
+      margin-bottom: 20px;
+    }
+    .skin-title sup { font-size: 0.4em; vertical-align: super; color: var(--gold); }
+    .skin-descriptor {
+      font-size: clamp(12px, 1.4vw, 14px);
+      font-weight: 300; color: #3a3a3a;
+      line-height: 2; letter-spacing: 0.04em;
+    }
+    .skin-questions { border-top: 1px solid #0a0a0a; }
+    .skin-question {
+      display: flex; align-items: flex-start; gap: 32px;
+      padding: 40px 0; border-bottom: 1px solid #0a0a0a;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .skin-question.visible { opacity: 1; transform: none; }
+    .skin-question__num {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.22em;
+      color: #222; min-width: 24px; padding-top: 6px;
+      font-variant-numeric: tabular-nums; flex-shrink: 0;
+    }
+    .skin-question__text {
+      font-size: clamp(18px, 2.8vw, 30px);
+      font-weight: 700; letter-spacing: -0.02em;
+      color: #EFEFEF; line-height: 1.15;
+    }
+    .skin-footnote {
+      margin-top: 56px;
+      font-size: 9px; letter-spacing: 0.35em;
+      text-transform: uppercase; color: #1e1e1e;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .skin-footnote::before {
+      content: ''; display: block;
+      width: 28px; height: 1px; background: #1e1e1e;
+    }
+
+    /* ── EXPEDIENTES ────────────────────────────────────────────── */
+    .expedientes { padding: 120px 0; background: var(--bg); border-top: 1px solid #070707; }
+    .expedientes__header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 64px; padding-bottom: 24px;
+      border-bottom: 1px solid #080808;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .expedientes__label {
+      font-size: 9px; letter-spacing: 0.45em;
+      text-transform: uppercase; color: #2a2a2a; margin-bottom: 10px;
+    }
+    .expedientes__title {
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 800; letter-spacing: -0.03em; color: var(--white);
+    }
+    .expediente {
+      display: grid;
+      grid-template-columns: 64px 1fr 20px;
+      align-items: start; gap: 28px;
+      padding: 44px 0; border-bottom: 1px solid #080808;
+      cursor: default; transition: background 0.3s;
+    }
+    .expediente--link { cursor: pointer; }
+    .expediente--link:hover { background: #040404; }
+    .expediente--link:hover .exp-nombre { color: var(--gold); }
+    .expediente--link:hover .exp-arrow { transform: translate(4px,-4px); color: var(--gold); }
+    .exp-num-col {
+      display: flex; flex-direction: column; gap: 4px; padding-top: 4px;
+    }
+    .exp-file-label {
+      font-size: 7px; letter-spacing: 0.5em;
+      text-transform: uppercase; color: #1a1a1a; line-height: 1;
+    }
+    .exp-file-num {
+      font-size: 14px; font-weight: 800; letter-spacing: 0.1em;
+      color: #222; font-variant-numeric: tabular-nums;
+    }
+    .exp-body { display: flex; flex-direction: column; gap: 10px; }
+    .exp-nombre {
+      font-size: clamp(22px, 3vw, 38px);
+      font-weight: 800; letter-spacing: -0.03em;
+      color: #EFEFEF; transition: color 0.3s; line-height: 1;
+    }
+    .exp-meta {
+      display: flex; flex-wrap: wrap; gap: 28px; margin-top: 4px;
+    }
+    .exp-meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .exp-meta-label {
+      font-size: 7px; letter-spacing: 0.45em;
+      text-transform: uppercase; color: #1a1a1a;
+    }
+    .exp-meta-value {
+      font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #2e2e2e;
+    }
+    .exp-meta-value--active { color: var(--green) !important; }
+    .exp-arrow {
+      font-size: 14px; color: #1a1a1a; padding-top: 4px; align-self: start;
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), color 0.3s;
+    }
+    @media (max-width: 560px) {
+      .expediente { grid-template-columns: 48px 1fr; }
+      .exp-arrow { display: none; }
+    }
+
     /* ── FOOTER UPDATED ────────────────────────────────────────── */
     .footer { background: #020202; border-top: 1px solid #080808; padding: 40px 0; }
     .footer__brand {
@@ -895,6 +1010,172 @@
       margin-top: 4px;
     }
     .footer__copy { font-size: 11px; color: #161616; letter-spacing: 0.05em; }
+
+    /* ═══════════════════════════════════════════════════════════
+       OJ0$ PRECISION LAYER — UI System Refinements
+       ═══════════════════════════════════════════════════════════ */
+
+    /* ── NAV — scroll-aware state ────────────────────────────── */
+    .nav {
+      transition: background 0.45s cubic-bezier(0.16,1,0.3,1),
+                  border-color 0.45s ease,
+                  padding 0.45s ease;
+    }
+    .nav--scrolled {
+      background: rgba(4,4,4,0.96);
+      border-bottom-color: rgba(255,255,255,0.04);
+      padding: 13px 0;
+    }
+    .nav--scrolled .nav__logo-mark { color: #F0F0F0; }
+    .nav--scrolled .nav__logo-sub  { color: rgba(240,240,240,0.28); }
+    .nav--scrolled .nav__cta {
+      background: transparent;
+      color: rgba(240,240,240,0.82);
+      border-color: rgba(255,255,255,0.1);
+    }
+    .nav--scrolled .nav__cta:hover {
+      background: transparent;
+      color: var(--green);
+      border-color: var(--green);
+      box-shadow: 0 0 14px var(--green-glow);
+    }
+
+    /* ── LABORATORIO — legibility ────────────────────────────── */
+    .lp-about__kicker      { color: #555; }
+    .lp-about__body        { color: #888; line-height: 2.35; }
+    .lp-about__tag         { color: #444; }
+    .lp-about__tag::before { background: #333; }
+
+    /* ── SKIN SYSTEM™ — precision ────────────────────────────── */
+    .skin-badge                               { color: #555; }
+    .skin-descriptor                          { color: #777; line-height: 2.1; }
+    .skin-question__num                       { color: #3a3a3a; }
+    .skin-question:hover .skin-question__num  { color: #666; }
+    .skin-question:hover .skin-question__text { color: #fff; }
+    .skin-footnote                            { color: #444; }
+    .skin-footnote::before                    { background: #333; }
+    /* terminal cursor on SKIN SYSTEM™ footnote */
+    .skin-footnote::after {
+      content: '_';
+      color: var(--gold); opacity: 0.7;
+      margin-left: 6px;
+      animation: oj-blink 1.4s step-end infinite;
+    }
+
+    /* ── EXPEDIENTES — file aesthetic ────────────────────────── */
+    .expedientes__label   { color: #555; }
+    .exp-file-label       { color: #2e2e2e; }
+    .exp-file-num         { color: #555; }
+    .exp-meta-label       { color: #333; }
+    .exp-meta-value       { color: #666; }
+    .exp-arrow            { color: #222; }
+
+    /* Gold scan sweep on hover */
+    .expediente--link { position: relative; overflow: hidden; }
+    .expediente--link::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      height: 1px; width: 0;
+      background: linear-gradient(90deg,
+        transparent 0%, var(--gold) 40%,
+        var(--gold) 60%, transparent 100%);
+      opacity: 0.35;
+      transition: width 0.55s cubic-bezier(0.16,1,0.3,1);
+      pointer-events: none;
+    }
+    .expediente--link:hover::after  { width: 100%; }
+    .expediente--link:hover .exp-file-num { color: var(--gold); }
+    /* EXP 001 — active status mark */
+    #exp-001 .exp-file-num { color: var(--gold); }
+    #exp-001 .exp-nombre   { color: #fafafa; }
+
+    /* ── UMBRAL — form refinements ───────────────────────────── */
+    .form-section .tag-label    { color: #555; }
+    .form-section .section__sub { color: #777; }
+    /* Restore visible focus ring inside dark form card */
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: rgba(201,169,110,0.55);
+      box-shadow: 0 0 0 3px rgba(201,169,110,0.06);
+    }
+    .form-submit { letter-spacing: 0.1em; }
+
+    /* ── FOOTER ───────────────────────────────────────────────── */
+    .footer__brand { color: #555; }
+    .footer__copy  { color: #2a2a2a; }
+
+    /* ── FOCUS RING — accessibility ──────────────────────────── */
+    :focus-visible {
+      outline: 1.5px solid rgba(201,169,110,0.55);
+      outline-offset: 3px;
+    }
+
+    /* ── SPINNER — form submit loading state ─────────────────── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      display: inline-block;
+      width: 11px; height: 11px;
+      border: 1.5px solid rgba(201,169,110,0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+
+    /* ── SCROLL MARGIN — fixed nav clearance ─────────────────── */
+    #laboratorio, #metodo, #evidencias, #umbral {
+      scroll-margin-top: 80px;
+    }
+
+    /* ── SITE CODA — closing statement ───────────────────────── */
+    .site-coda {
+      padding: 100px 24px 88px;
+      text-align: center;
+      background: #010101;
+      border-top: 1px solid #060606;
+    }
+    .site-coda__ornament {
+      display: flex; align-items: center; gap: 24px;
+      justify-content: center;
+      margin-bottom: 52px;
+    }
+    .site-coda__ornament::before,
+    .site-coda__ornament::after {
+      content: '';
+      display: block;
+      width: 48px; height: 1px;
+      background: linear-gradient(90deg, transparent, #111);
+    }
+    .site-coda__ornament::after {
+      background: linear-gradient(90deg, #111, transparent);
+    }
+    .site-coda__mark {
+      font-size: 8px; letter-spacing: 0.55em;
+      text-transform: uppercase; color: #1e1e1e;
+    }
+    .site-coda__text {
+      font-size: clamp(14px, 1.75vw, 18px);
+      font-weight: 300; color: #3d3d3d;
+      line-height: 2; letter-spacing: 0.01em;
+      max-width: 360px; margin: 0 auto;
+    }
+    .site-coda__geo {
+      display: block;
+      margin-top: 44px;
+      font-size: 8px; letter-spacing: 0.5em;
+      text-transform: uppercase; color: #161616;
+    }
+
+    /* ── REDUCED MOTION ──────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      .skin-footnote::after { animation: none; }
+      .expediente--link::after { transition: none; }
+      .reveal { transition: none !important; }
+      .skin-question { transition: none; }
+      .spinner { animation: none; border-top-color: var(--gold); opacity: 0.6; }
+    }
   </style>
 
   <!-- ── OJ0$ DROP 01 — OVERLAY STYLES ───────────────────────── -->
@@ -2453,10 +2734,10 @@
     <div class="container">
       <div class="nav__inner">
         <div class="nav__logo" id="nav-logo">
-          <span class="nav__logo-joss">JOSS</span>
-          <span class="nav__logo-desxgn">DESXGN</span>
+          <span class="nav__logo-mark">JOSS</span>
+          <span class="nav__logo-sub">DESXGN</span>
         </div>
-        <a href="#contacto" class="nav__cta">HABLEMOS ↗</a>
+        <a href="#umbral" class="nav__cta">DIAGNÓSTICO ↗</a>
       </div>
     </div>
   </nav>
@@ -2539,7 +2820,7 @@
         <!-- Kicker -->
         <p class="hero-kicker">
           <span class="hero-kicker__dot"></span>
-          SIN TANTO RUIDO ;)
+          JOSS DESXGN — STUDIO CREATIVO
         </p>
 
         <!-- Two-phrase headline sequence -->
@@ -2562,105 +2843,155 @@
 
   </section>
 
-  <!-- ── S02 — SELECTED WORK ───────────────────────────────────── -->
-  <section class="lp-work" id="work">
-    <div class="container">
-      <div class="lp-work__header reveal">
-        <div>
-          <p class="lp-work__label">Selected work</p>
-          <h2 class="lp-work__title">JOSS DESXGN</h2>
-        </div>
-        <a href="https://jossreloadrandom.myportfolio.com/" target="_blank" rel="noopener" class="lp-work__portfolio-link">
-          Portfolio completo ↗
-        </a>
-      </div>
-      <div class="lp-work__list">
-        <a href="https://jossreloadrandom.myportfolio.com/" target="_blank" rel="noopener" class="lp-work-item reveal">
-          <span class="lp-work-item__num">01</span>
-          <span class="lp-work-item__title">Brand Identity</span>
-          <span class="lp-work-item__tag">Branding</span>
-          <span class="lp-work-item__arrow">↗</span>
-        </a>
-        <a href="https://jossreloadrandom.myportfolio.com/" target="_blank" rel="noopener" class="lp-work-item reveal">
-          <span class="lp-work-item__num">02</span>
-          <span class="lp-work-item__title">Visual Campaign</span>
-          <span class="lp-work-item__tag">Producción</span>
-          <span class="lp-work-item__arrow">↗</span>
-        </a>
-        <a href="https://jossreloadrandom.myportfolio.com/" target="_blank" rel="noopener" class="lp-work-item reveal">
-          <span class="lp-work-item__num">03</span>
-          <span class="lp-work-item__title">Digital Strategy</span>
-          <span class="lp-work-item__tag">Ads</span>
-          <span class="lp-work-item__arrow">↗</span>
-        </a>
-        <a href="https://jossreloadrandom.myportfolio.com/" target="_blank" rel="noopener" class="lp-work-item reveal">
-          <span class="lp-work-item__num">04</span>
-          <span class="lp-work-item__title">Social Content</span>
-          <span class="lp-work-item__tag">Redes</span>
-          <span class="lp-work-item__arrow">↗</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── S03 — ABOUT ───────────────────────────────────────────── -->
-  <section class="lp-about" id="about">
+  <!-- ── S02 — LABORATORIO ─────────────────────────────────────── -->
+  <section class="lp-about" id="laboratorio">
     <div class="container">
       <div class="lp-about__inner reveal">
-        <p class="lp-about__kicker">Quiénes somos</p>
+        <p class="lp-about__kicker">El estudio</p>
         <h2 class="lp-about__headline">JOSS</h2>
         <h2 class="lp-about__headline-ghost">DESXGN</h2>
         <p class="lp-about__body">
-          No somos una agencia de plantillas.<br>
-          Somos un estudio creativo que trabaja con marcas que quieren decir algo real.<br>
-          Cucuta. Colombia. Sin intermediarios.
+          No somos una agencia de branding.<br>
+          No somos una agencia de diseño.<br>
+          Somos un estudio que interviene identidades.<br><br>
+          Cada identidad ya existe.<br>
+          Nuestro trabajo es encontrarla.
         </p>
-        <p class="lp-about__tag">OJ0$$ — Since 2023</p>
+        <p class="lp-about__tag">Cucuta, Colombia — Sin intermediarios</p>
       </div>
     </div>
   </section>
 
-  <!-- ── S04 — SERVICES ────────────────────────────────────────── -->
-  <section class="services section" id="servicios">
+  <!-- ── S03 — SKIN SYSTEM™ ────────────────────────────────────── -->
+  <section class="skin-system section" id="metodo">
     <div class="container">
-      <div class="section__header reveal">
-        <span class="tag-label">Disciplinas</span>
-        <h2 class="section__title">Lo que hacemos.</h2>
-        <p class="section__sub">Sin relleno. Sin paquetes genéricos.</p>
+      <div class="skin-header reveal">
+        <span class="skin-badge">La metodología</span>
+        <h2 class="skin-title">SKIN SYSTEM<sup>™</sup></h2>
+        <p class="skin-descriptor">
+          La metodología interna del estudio.<br>
+          No una fórmula. Un arte de interpretar.
+        </p>
       </div>
-      <div class="services__grid">
-        <div class="service-card reveal">
-          <div class="service-card__icon">—</div>
-          <h3 class="service-card__title">Producción Audiovisual</h3>
-          <p class="service-card__desc">Video, reels, contenido visual. Creamos lo que detiene el scroll.</p>
+      <div class="skin-questions">
+        <div class="skin-question reveal">
+          <span class="skin-question__num">01</span>
+          <p class="skin-question__text">¿Qué es realmente esta marca?</p>
         </div>
-        <div class="service-card reveal">
-          <div class="service-card__icon">—</div>
-          <h3 class="service-card__title">Gestión de Redes</h3>
-          <p class="service-card__desc">Estrategia, contenido y comunidad. Presencia consistente con identidad.</p>
+        <div class="skin-question reveal">
+          <span class="skin-question__num">02</span>
+          <p class="skin-question__text">¿Qué le falta para ser lo que ya quiere ser?</p>
         </div>
-        <div class="service-card reveal">
-          <div class="service-card__icon">—</div>
-          <h3 class="service-card__title">Publicidad Digital</h3>
-          <p class="service-card__desc">Meta Ads y Google Ads optimizados para retorno real, no métricas vacías.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-card__icon">—</div>
-          <h3 class="service-card__title">Branding</h3>
-          <p class="service-card__desc">Identidad visual que diferencia. Diseño que funciona antes de la palabra.</p>
+        <div class="skin-question reveal">
+          <span class="skin-question__num">03</span>
+          <p class="skin-question__text">¿Cómo se construye ese puente?</p>
         </div>
       </div>
+      <p class="skin-footnote reveal">Eso es SKIN SYSTEM™</p>
     </div>
   </section>
 
-  <!-- ── S05 — CONTACT ─────────────────────────────────────────── -->
-  <section class="form-section section" id="contacto">
+  <!-- ── S04 — EVIDENCIAS ──────────────────────────────────────── -->
+  <section class="expedientes" id="evidencias">
+    <div class="container">
+      <div class="expedientes__header reveal">
+        <div>
+          <p class="expedientes__label">Evidencias</p>
+          <h2 class="expedientes__title">EXPEDIENTES</h2>
+        </div>
+      </div>
+
+      <!-- EXPEDIENTE 001 — DROP 01 / SUBMERGED -->
+      <div class="expediente expediente--link reveal" id="exp-001" role="button" tabindex="0" aria-label="Abrir experiencia DROP 01 — SUBMERGED">
+        <div class="exp-num-col">
+          <span class="exp-file-label">EXP.</span>
+          <span class="exp-file-num">001</span>
+        </div>
+        <div class="exp-body">
+          <h3 class="exp-nombre">SUBMERGED</h3>
+          <div class="exp-meta">
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Universo</span>
+              <span class="exp-meta-value">OJ0$</span>
+            </div>
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Estado</span>
+              <span class="exp-meta-value exp-meta-value--active">Activo</span>
+            </div>
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Intervención</span>
+              <span class="exp-meta-value">Identidad Experimental</span>
+            </div>
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Resultado</span>
+              <span class="exp-meta-value">DROP 01</span>
+            </div>
+          </div>
+        </div>
+        <span class="exp-arrow">↗</span>
+      </div>
+
+      <!-- EXPEDIENTE 002 — Global Sport -->
+      <div class="expediente reveal">
+        <div class="exp-num-col">
+          <span class="exp-file-label">EXP.</span>
+          <span class="exp-file-num">002</span>
+        </div>
+        <div class="exp-body">
+          <h3 class="exp-nombre">GLOBAL SPORT</h3>
+          <div class="exp-meta">
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Estado</span>
+              <span class="exp-meta-value">Finalizado</span>
+            </div>
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Intervención</span>
+              <span class="exp-meta-value">Evolución</span>
+            </div>
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Resultado</span>
+              <span class="exp-meta-value">Identidad Reactivada</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPEDIENTE 003 — La Chiva -->
+      <div class="expediente reveal">
+        <div class="exp-num-col">
+          <span class="exp-file-label">EXP.</span>
+          <span class="exp-file-num">003</span>
+        </div>
+        <div class="exp-body">
+          <h3 class="exp-nombre">LA CHIVA</h3>
+          <div class="exp-meta">
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Estado</span>
+              <span class="exp-meta-value">Finalizado</span>
+            </div>
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Intervención</span>
+              <span class="exp-meta-value">Activación</span>
+            </div>
+            <div class="exp-meta-item">
+              <span class="exp-meta-label">Resultado</span>
+              <span class="exp-meta-value">Presencia Digital</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── S05 — UMBRAL ──────────────────────────────────────────── -->
+  <section class="form-section section" id="umbral">
     <div class="container">
       <div class="form-wrapper">
         <div class="section__header reveal">
-          <span class="tag-label">Contacto</span>
-          <h2 class="section__title">Hablemos.</h2>
-          <p class="section__sub">Te respondemos en menos de 2 horas hábiles.</p>
+          <span class="tag-label">El umbral</span>
+          <h2 class="section__title">¿Tu marca ya sabe quién es?</h2>
+          <p class="section__sub">El diagnóstico comienza aquí.</p>
         </div>
         <div class="form-card reveal">
 
@@ -2678,37 +3009,49 @@
               <input type="email" name="email" placeholder="tu@correo.com" autocomplete="email">
             </div>
             <div class="field field--full">
-              <label>Servicio <span class="req">*</span></label>
+              <label>¿Qué le pasa a tu marca? <span class="req">*</span></label>
               <select name="servicio_interes" required>
-                <option value="" disabled selected>Selecciona un servicio</option>
-                <option value="Produccion Audiovisual">Producción Audiovisual</option>
-                <option value="Gestion de Redes">Gestión de Redes</option>
-                <option value="Publicidad Digital Ads">Publicidad Digital</option>
-                <option value="Branding">Branding</option>
-                <option value="Otro">Otro</option>
+                <option value="" disabled selected>Selecciona una situación</option>
+                <option value="Creacion">Mi marca no existe todavía</option>
+                <option value="Evolucion">Mi marca existe pero no comunica lo que soy</option>
+                <option value="Activacion">Mi marca está dormida</option>
+                <option value="Expansion">Quiero llevar mi marca a nuevos territorios</option>
+                <option value="Otro">No sé exactamente, pero algo no funciona</option>
               </select>
             </div>
             <div class="field field--full">
-              <label>Mensaje</label>
-              <textarea name="nota_inicial" placeholder="Cuéntanos sobre tu proyecto..."></textarea>
+              <label>Contexto</label>
+              <textarea name="nota_inicial" placeholder="Cuéntanos qué sabes de tu marca hasta ahora..."></textarea>
             </div>
             <div class="field field--full">
-              <button type="submit" class="form-submit" id="submit-btn">Enviar mensaje</button>
+              <button type="submit" class="form-submit" id="submit-btn">INICIAR DIAGNÓSTICO</button>
               <div class="form-error" id="form-error">Hubo un error. Intenta de nuevo.</div>
-              <p class="form-note">Sin spam. Solo una conversación.</p>
+              <p class="form-note">Sin spam. Sin cotizaciones automáticas. Solo una conversación real.</p>
             </div>
           </form>
 
           <div class="form-state form-state--success" id="form-success">
             <div class="state-icon">✦</div>
             <div class="state-title">Recibido.</div>
-            <div class="state-sub">Te contactamos pronto.<br><strong>+57 315 065 0071</strong></div>
+            <div class="state-sub">El estudio ya está leyendo tu caso.<br><strong>+57 315 065 0071</strong></div>
           </div>
 
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ── CODA — closing statement ─────────────────────────────── -->
+  <div class="site-coda">
+    <div class="site-coda__ornament" aria-hidden="true">
+      <span class="site-coda__mark">✦</span>
+    </div>
+    <p class="site-coda__text reveal">
+      Cada marca que llega tiene algo que decir.<br>
+      Lo encontramos antes de diseñar.
+    </p>
+    <span class="site-coda__geo">JOSS DESXGN — Cucuta, Colombia</span>
+  </div>
 
   <!-- ── FOOTER ─────────────────────────────────────────────────── -->
   <footer class="footer">
@@ -2929,22 +3272,26 @@
 
       /* ── INIT ───────────────────────────────────────────────── */
       function init() {
-        // Always show the drop experience on every visit
-        localStorage.removeItem(LS_UNLOCKED);
+        var params = new URLSearchParams(window.location.search);
+        var isCampaign = params.get('drop') === '01';
 
-        // Lock body until drop is completed
-        document.body.classList.add('oj-locked');
-
-        // If drop conditions already met, jump to success
-        if (checkUnlock() && reserved > 0) {
-          goTo('oj-s06');
-          var unitNum = document.getElementById('oj-unit-num');
-          if (unitNum) unitNum.textContent = reserved;
-          updatePressure();
+        if (isCampaign) {
+          /* Entry A — campaign URL: full DROP experience */
+          localStorage.removeItem(LS_UNLOCKED);
+          document.body.classList.add('oj-locked');
+          if (checkUnlock() && reserved > 0) {
+            goTo('oj-s06');
+            var unitNum = document.getElementById('oj-unit-num');
+            if (unitNum) unitNum.textContent = reserved;
+            updatePressure();
+          } else {
+            runEntrySequence();
+            updatePressure();
+          }
         } else {
-          // Run entry sequence
-          runEntrySequence();
-          updatePressure();
+          /* Entry B — direct/agency URL: base site, DROP accessible via float */
+          overlay.style.display = 'none';
+          if (floatBtn) floatBtn.classList.add('on');
         }
 
         /* ── GLITCH TRANSITION ──────────────────────────────────── */
@@ -3346,6 +3693,23 @@
           goTo('oj-s01');
           runEntrySequence();
         });
+
+        /* EXPEDIENTE 001 — open DROP experience from base site */
+        var exp001 = document.getElementById('exp-001');
+        if (exp001) {
+          function openDrop() {
+            if (floatBtn) floatBtn.classList.remove('on');
+            overlay.style.display = '';
+            overlay.classList.remove('oj-exit');
+            document.body.classList.add('oj-locked');
+            goTo('oj-s01');
+            runEntrySequence();
+          }
+          exp001.addEventListener('click', openDrop);
+          exp001.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDrop(); }
+          });
+        }
       }
 
       /* ── ENTRANCE DISMISS ───────────────────────────────────── */
@@ -3548,11 +3912,23 @@
 
       } catch (err) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Quiero que me contacten';
+        submitBtn.innerHTML = 'INICIAR DIAGNÓSTICO';
         errorBox.textContent = 'Hubo un error al enviar. Intenta de nuevo o escríbenos directamente.';
         errorBox.style.display = 'block';
       }
     });
+
+    /* ── NAV SCROLL BEHAVIOR ─────────────────────────────────── */
+    (function () {
+      var nav  = document.querySelector('.nav');
+      var hero = document.getElementById('inicio');
+      if (!nav || !hero) return;
+      function tick() {
+        nav.classList.toggle('nav--scrolled', window.scrollY > hero.offsetHeight * 0.6);
+      }
+      window.addEventListener('scroll', tick, { passive: true });
+      tick();
+    })();
   </script>
 
 </body>
