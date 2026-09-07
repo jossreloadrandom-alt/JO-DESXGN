@@ -1176,6 +1176,40 @@
       .skin-question { transition: none; }
       .spinner { animation: none; border-top-color: var(--gold); opacity: 0.6; }
     }
+
+    /* ── WHATSAPP FLOTANTE (Fase A) ────────────────────────────── */
+    .wa-fab {
+      position: fixed; right: 20px; bottom: 20px; z-index: 40;
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+      transition: color var(--transition), border-color var(--transition), transform var(--transition);
+    }
+    .wa-fab:hover { color: var(--green); border-color: var(--green); transform: translateY(-2px); }
+    .wa-fab svg { width: 24px; height: 24px; display: block; }
+    body.oj-locked .wa-fab { display: none; }
+    @media (max-width: 480px) { .wa-fab { right: 14px; bottom: 14px; width: 48px; height: 48px; } }
+
+    /* ── ECOSISTEMA · tarjeta LAZZY (Fase A — espacio preparado, sin acceso público) ── */
+    .eco { padding: 72px 0 40px; border-top: 1px solid var(--border); background: var(--bg); }
+    .eco__card { max-width: 520px; }
+    .eco__row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+    .eco__name { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; color: var(--white); }
+    .eco__badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 4px 11px;
+    }
+    .eco__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    .eco__desc { font-size: 13.5px; line-height: 1.65; color: var(--muted); max-width: 440px; }
+
+    /* ── FOOTER · acceso equipo (Fase A — sin destino todavía) ── */
+    .footer__access { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #3a3a3a; cursor: default; user-select: none; }
+    .footer__right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   </style>
 
   <!-- ── OJ0$ DROP 01 — OVERLAY STYLES ───────────────────────── -->
@@ -2931,7 +2965,11 @@
         <span class="exp-arrow">↗</span>
       </div>
 
-      <!-- EXPEDIENTE 002 — Global Sport -->
+      <!-- FASE A · EXPEDIENTE 002 (Global Sport) y 003 (La Chiva) retirados de la
+           presentación pública: no representan trabajo actual. NO se borra evidencia —
+           el contenido sigue en el historial de git y en la documentación del proyecto
+           (casos/). Restaurar = quitar este comentario de apertura y su cierre.
+
       <div class="expediente reveal">
         <div class="exp-num-col">
           <span class="exp-file-label">EXP.</span>
@@ -2956,7 +2994,6 @@
         </div>
       </div>
 
-      <!-- EXPEDIENTE 003 — La Chiva -->
       <div class="expediente reveal">
         <div class="exp-num-col">
           <span class="exp-file-label">EXP.</span>
@@ -2980,6 +3017,7 @@
           </div>
         </div>
       </div>
+      -->
 
     </div>
   </section>
@@ -3033,7 +3071,7 @@
           <div class="form-state form-state--success" id="form-success">
             <div class="state-icon">✦</div>
             <div class="state-title">Recibido.</div>
-            <div class="state-sub">El estudio ya está leyendo tu caso.<br><strong>+57 315 065 0071</strong></div>
+            <div class="state-sub">El estudio ya está leyendo tu caso. Te contactamos pronto por WhatsApp.</div>
           </div>
 
         </div>
@@ -3053,6 +3091,19 @@
     <span class="site-coda__geo">JOSS DESXGN — Cucuta, Colombia</span>
   </div>
 
+  <!-- ── ECOSISTEMA · LAZZY (Fase A — pieza del ecosistema, sin acceso público todavía) ── -->
+  <section class="eco" aria-label="Ecosistema JOSS DESXGN">
+    <div class="container">
+      <div class="eco__card reveal">
+        <div class="eco__row">
+          <span class="eco__name">LAZZY</span>
+          <span class="eco__badge"><span class="eco__dot"></span>Beta privada</span>
+        </div>
+        <p class="eco__desc">Copiloto interno del estudio. Forma parte del ecosistema JOSS DESXGN. El acceso todavía no está habilitado para visitantes.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ── FOOTER ─────────────────────────────────────────────────── -->
   <footer class="footer">
     <div class="container">
@@ -3061,10 +3112,20 @@
           <div class="footer__brand">JOSS DESXGN</div>
           <div class="footer__sub"><span style="color:var(--green)">STUDIO CREATIVO</span></div>
         </div>
-        <div class="footer__copy">© 2026 — Cucuta, Colombia</div>
+        <div class="footer__right">
+          <!-- Fase A: entrada al panel privado del equipo. Sin destino todavia
+               (LAZZY aun no desplegado). Cuando exista, este span pasa a un enlace real. -->
+          <span class="footer__access" title="Disponible próximamente">Acceso equipo</span>
+          <div class="footer__copy">© 2026 — Cucuta, Colombia</div>
+        </div>
       </div>
     </div>
   </footer>
+
+  <!-- ── WHATSAPP FLOTANTE (Fase A) — icono discreto, número solo en el href ── -->
+  <a class="wa-fab" href="https://wa.me/573150650071?text=Hola%2C%20vengo%20de%20la%20web%20de%20JOSS%20DESXGN%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.8 9.8 0 0 0 12.04 2Zm0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24-1.5 0-2.97-.4-4.25-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.17 8.17 0 0 1-1.26-4.37c0-4.54 3.7-8.24 8.25-8.24Zm-3.2 4.39c-.15 0-.4.06-.6.29-.2.22-.79.77-.79 1.88 0 1.1.8 2.17.92 2.32.11.15 1.57 2.5 3.86 3.4 1.9.75 2.29.6 2.7.56.41-.04 1.34-.55 1.53-1.07.19-.53.19-.98.13-1.07-.06-.09-.2-.15-.42-.26-.22-.11-1.34-.66-1.55-.74-.2-.07-.35-.11-.5.11-.15.22-.57.74-.7.89-.13.15-.26.17-.48.06-.22-.11-.94-.35-1.79-1.11-.66-.59-1.11-1.32-1.24-1.54-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.39-.06-.11-.5-1.24-.69-1.7-.18-.44-.37-.38-.5-.39-.13-.01-.28-.01-.43-.01Z"/></svg>
+  </a>
 
   <!-- ── SCRIPTS ────────────────────────────────────────────────── -->
   <script>
@@ -3856,67 +3917,113 @@
       startWhenReady();
     })();
 
-    /* ── FORM SUBMIT ─────────────────────────────────────────── */
-    const WEBHOOK_URL = '{{GHL_WEBHOOK_URL}}'; // Replace with GHL Workflow webhook
+    /* ── FORM SUBMIT — Fase A ─────────────────────────────────────
+       Mismo patrón validado que campaign.html: POST text/plain al Apps
+       Script Web App, éxito SÓLO con result.ok === true, manejo de error
+       real con fallback a WhatsApp, nunca un éxito falso. Sin GoHighLevel,
+       sin locationId. El body son las 11 columnas exactas de la hoja
+       (ver docs/apps-script/Code.gs). */
+    (function () {
+      'use strict';
 
-    const form      = document.getElementById('ojoss-form');
-    const submitBtn = document.getElementById('submit-btn');
-    const success   = document.getElementById('form-success');
-    const errorBox  = document.getElementById('form-error');
+      // Mismo Google Apps Script Web App que campaign.html (Fase A).
+      var LEADS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyWRFaDYNkvpMHVX7Qz1ZPwykqjvNPSFZM_LJNUWlsoV0oVzyrqJkQZb59kN3SDgKJP/exec';
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorBox.style.display = 'none';
+      var WHATSAPP_NUMBER  = '573150650071';
+      var WHATSAPP_MESSAGE = 'Hola, vengo de la web de JOSS DESXGN y quiero iniciar un diagnóstico.';
+      var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(WHATSAPP_MESSAGE);
 
-      // Basic validation
-      const firstName      = form.firstName.value.trim();
-      const phone          = form.phone.value.trim();
-      const servicioInteres = form.servicio_interes.value;
+      var urlParams = new URLSearchParams(window.location.search);
+      function utm(name) { return urlParams.get(name) || ''; }
 
-      if (!firstName || !phone || !servicioInteres) {
-        errorBox.textContent = 'Por favor completa los campos obligatorios.';
+      var form      = document.getElementById('ojoss-form');
+      var submitBtn = document.getElementById('submit-btn');
+      var success   = document.getElementById('form-success');
+      var errorBox  = document.getElementById('form-error');
+      if (!form) return;
+
+      var isSubmitting = false;
+
+      function showError(html) {
+        errorBox.innerHTML = html;
         errorBox.style.display = 'block';
-        return;
       }
 
-      // Loading state
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Enviando <span class="spinner"></span>';
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (isSubmitting) return;
+        errorBox.style.display = 'none';
 
-      const payload = {
-        firstName,
-        phone,
-        email:           form.email.value.trim() || null,
-        servicio_interes: servicioInteres,
-        nota_inicial:    form.nota_inicial.value.trim() || null,
-        fuente_lead:     'landing-principal',
-        tags:            ['ojoss-lead', 'landing-principal', 'follow-up-pendiente', 'servicio-' + servicioInteres.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')],
-        locationId:      '333wInB2HFhaOLdPcjRJ',
-        source:          'Landing OJOSS v1'
-      };
+        var firstName       = form.firstName.value.trim();
+        var phone           = form.phone.value.trim();
+        var servicioInteres = form.servicio_interes.value;
 
-      try {
-        if (WEBHOOK_URL && WEBHOOK_URL !== '{{GHL_WEBHOOK_URL}}') {
-          await fetch(WEBHOOK_URL, {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify(payload)
-          });
+        if (!firstName || !phone || !servicioInteres) {
+          showError('Por favor completa los campos obligatorios.');
+          return;
         }
-        // Show success regardless (webhook or dev mode)
-        form.style.display = 'none';
-        success.style.display = 'block';
 
-        // Scroll to success
-        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        var servicioLabel = '';
+        var sel = form.servicio_interes;
+        if (sel && sel.selectedIndex >= 0) servicioLabel = sel.options[sel.selectedIndex].text;
+        var nota = form.nota_inicial.value.trim();
+        var contexto = 'Situación: ' + servicioLabel + (nota ? ' — ' + nota : '');
 
-      } catch (err) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'INICIAR DIAGNÓSTICO';
-        errorBox.textContent = 'Hubo un error al enviar. Intenta de nuevo o escríbenos directamente.';
-        errorBox.style.display = 'block';
-      }
-    });
+        // Fase A -- estructura EXACTA de columnas de la hoja (11 campos),
+        // sin claves extra (nunca locationId, tags, source ni datos internos).
+        var payload = {
+          timestamp:    new Date().toISOString(),
+          nombre:       firstName,
+          whatsapp:     phone,
+          email:        form.email.value.trim() || '',
+          presupuesto:  '',
+          contexto:     contexto,
+          origen:       'landing-diagnostico',
+          utm_source:   utm('utm_source'),
+          utm_medium:   utm('utm_medium'),
+          utm_campaign: utm('utm_campaign'),
+          utm_content:  utm('utm_content')
+        };
+
+        isSubmitting = true;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Enviando <span class="spinner"></span>';
+
+        var controller = ('AbortController' in window) ? new AbortController() : null;
+        var timeoutId = controller ? setTimeout(function () { controller.abort(); }, 10000) : null;
+
+        // text/plain es DELIBERADO -- evita el preflight CORS que rompe los
+        // Web Apps de Apps Script; el body sigue siendo JSON (ver Code.gs).
+        fetch(LEADS_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
+          signal: controller ? controller.signal : undefined
+        })
+          .then(function (response) {
+            if (timeoutId) clearTimeout(timeoutId);
+            if (!response.ok) throw new Error('http_' + response.status);
+            return response.json();
+          })
+          .then(function (result) {
+            // Único criterio de éxito real. Apps Script devuelve HTTP 200
+            // incluso para sus propios errores controlados ({ok:false}).
+            if (!result || result.ok !== true) throw new Error('body_not_ok');
+            form.style.display = 'none';
+            success.style.display = 'block';
+            success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          })
+          .catch(function () {
+            if (timeoutId) clearTimeout(timeoutId);
+            showError('En este momento no pudimos enviar tu solicitud. Escríbenos directamente por <a href="' + whatsappUrl + '" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline">WhatsApp</a>.');
+          })
+          .finally(function () {
+            isSubmitting = false;
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'INICIAR DIAGNÓSTICO';
+          });
+      });
+    })();
 
     /* ── NAV SCROLL BEHAVIOR ─────────────────────────────────── */
     (function () {

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="JOSS DESXGN — Gestión mensual de campañas publicitarias. Creatividad + pauta + optimización continua.">
+  <title>JOSS DESXGN — Gestión de Campañas Publicitarias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&display=swap" rel="stylesheet">
+
+  <!--
+    Fase F7.7 -- ver docs/google-sheets-leads-setup.md para la guía completa (sin código,
+    paso a paso) de cómo crear la Google Sheet y publicar el Apps Script Web App.
+    GoHighLevel fue descartado como CRM en esta etapa (decisión de producto, F7.7) -- el
+    formulario ya NO depende de GHL en ningún punto de este archivo.
+
+    Puntos que requieren un dato REAL antes de que esto funcione al 100% (más abajo, en
+    <script>, NUNCA reemplazados por datos inventados):
+      - GOOGLE_SHEETS_WEBHOOK_URL -- placeholder hasta que publiques el Apps Script Web App.
+      - META_PIXEL_ID -- placeholder hasta que actives Meta Pixel (opcional, no bloqueante).
+      - GA4_MEASUREMENT_ID -- placeholder, opcional.
+  -->
+
+  <style>
+    /* ── DESIGN TOKENS -- copiados de index.html (identidad visual, Fase F7.5/F7.6) ──
+       index.html NO se tocó para poder copiar esto -- ver reporte de la fase para el
+       porqué de esta duplicación mínima y deliberada. */
+    :root {
+      --bg:        #080808;
+      --surface:   #111111;
+      --surface2:  #181818;
+      --border:    #222222;
+      --gold:      #C9A96E;
+      --gold-dim:  #9A7A4A;
+      --white:     #F0F0F0;
+      --muted:     #6A6A6A;
+      --danger:    #E05555;
+      --success:   #4CAF82;
+      --green:     #22C55E;
+      --green-glow: rgba(34,197,94,0.45);
+      --radius:    12px;
+      --radius-lg: 20px;
+      --font:      'Inter', system-ui, sans-serif;
+      --font-display: 'Barlow Condensed', 'Inter', sans-serif;
+      --max:       880px;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    .container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      padding: 14px 0;
+      background: rgba(8,8,8,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .nav__logo { display: flex; flex-direction: column; line-height: 1; }
+    .nav__logo-mark { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; }
+    .nav__logo-sub { font-family: var(--font-display); font-size: 8px; font-weight: 600; letter-spacing: 0.4em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+    .nav__actions { display: flex; align-items: center; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 18px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 999px; border: 1.5px solid transparent;
+      text-decoration: none; cursor: pointer;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+      white-space: nowrap;
+    }
+    .btn--primary { background: var(--gold); color: #1a1305; border-color: var(--gold); }
+    .btn--primary:hover { background: transparent; color: var(--gold); }
+    .btn--ghost { background: transparent; color: var(--white); border-color: var(--border); }
+    .btn--ghost:hover { border-color: var(--green); color: var(--green); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .nav__actions .btn--ghost { display: none; }
+    @media (min-width: 520px) { .nav__actions .btn--ghost { display: inline-flex; } }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding: 72px 0 56px;
+      overflow: hidden;
+    }
+    .hero__bg {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(180deg, rgba(8,8,8,0.55) 0%, rgba(8,8,8,0.92) 78%, var(--bg) 100%), url('assets/campaign-banner.jpg');
+      background-size: cover;
+      background-position: center 20%;
+      opacity: 0.55;
+    }
+    .hero__content { position: relative; text-align: center; }
+    .hero__kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--gold); margin: 0 0 18px;
+    }
+    .hero__kicker-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+    .hero__title {
+      font-family: var(--font-display); font-weight: 800; text-transform: uppercase;
+      font-size: clamp(30px, 6.4vw, 52px); line-height: 1.05; letter-spacing: -0.01em;
+      margin: 0 0 20px;
+    }
+    .hero__title em { font-style: normal; color: var(--gold); display: block; }
+    .hero__sub {
+      font-size: clamp(15px, 2.2vw, 18px); line-height: 1.55; color: #d8d8d8;
+      max-width: 620px; margin: 0 auto 30px;
+    }
+    .hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .hero__ctas .btn { padding: 13px 26px; font-size: 13px; }
+
+    /* ── DIFERENCIAL STRIP ── */
+    .diff { padding: 52px 0; border-top: 1px solid var(--border); }
+    /* Fase F7.8 -- frase que deja explícito el modelo de gestión continua (mismos valores
+       tipográficos de .hero__sub, para no introducir un patrón visual nuevo). */
+    .diff__intro { max-width: 620px; margin: 0 auto 28px; font-size: 14.5px; line-height: 1.6; color: #d8d8d8; text-align: center; }
+    .diff__grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+    @media (min-width: 680px) { .diff__grid { grid-template-columns: repeat(3, 1fr); } }
+    .diff__card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 22px;
+    }
+    .diff__num { font-family: var(--font-display); font-size: 13px; color: var(--gold); letter-spacing: 0.1em; }
+    .diff__title { font-family: var(--font-display); font-size: 20px; font-weight: 700; text-transform: uppercase; margin: 6px 0 8px; }
+    .diff__body { font-size: 13.5px; line-height: 1.5; color: var(--muted); margin: 0; }
+
+    /* ── RECORRIDO ── */
+    .journey { padding: 52px 0; border-top: 1px solid var(--border); text-align: center; }
+    .journey__label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 20px; }
+    .journey__steps { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
+    .journey__step {
+      font-family: var(--font-display); font-size: 15px; font-weight: 700; text-transform: uppercase;
+      padding: 10px 18px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface2);
+    }
+    .journey__step--active { border-color: var(--gold); color: var(--gold); }
+    .journey__arrow { color: var(--muted); font-size: 16px; }
+
+    /* ── PROOF LINK-OUT ── */
+    .proof { padding: 44px 0; border-top: 1px solid var(--border); text-align: center; }
+    .proof__text { font-size: 14px; color: var(--muted); margin: 0 0 14px; }
+    .proof__link { color: var(--gold); text-decoration: none; font-weight: 600; }
+    .proof__link:hover { text-decoration: underline; }
+
+    /* ── FORM ── */
+    .form-section { padding: 60px 0 72px; border-top: 1px solid var(--border); }
+    .form-header { text-align: center; margin-bottom: 32px; }
+    .form-header__tag { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+    .form-header__title { font-family: var(--font-display); font-size: clamp(24px, 4vw, 34px); font-weight: 800; text-transform: uppercase; margin: 8px 0 6px; }
+    .form-header__sub { font-size: 13.5px; color: var(--muted); margin: 0; }
+
+    .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; max-width: 560px; margin: 0 auto; }
+    .form-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+    @media (min-width: 480px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field--full { grid-column: 1 / -1; }
+    .field label { font-size: 11.5px; font-weight: 600; color: #ccc; }
+    .field .req { color: var(--gold); }
+    .field input, .field select, .field textarea {
+      background: var(--bg); border: 1px solid var(--border); color: var(--white);
+      border-radius: 7px; padding: 11px 12px; font-size: 14px; font-family: var(--font);
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+    .field textarea { resize: vertical; min-height: 76px; }
+
+    .form-submit {
+      grid-column: 1 / -1;
+      background: var(--gold); color: #1a1305; border: none;
+      padding: 14px; border-radius: 8px; font-size: 13px; font-weight: 800;
+      letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+      transition: opacity var(--transition);
+    }
+    .form-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+    .form-note { grid-column: 1 / -1; font-size: 11.5px; color: var(--muted); text-align: center; margin: 0; }
+
+    .form-message { grid-column: 1 / -1; display: none; padding: 12px 14px; border-radius: 8px; font-size: 13px; line-height: 1.5; }
+    .form-message--error { display: block; background: rgba(224,85,85,0.1); border: 1px solid var(--danger); color: var(--danger); }
+    .form-message--error a { color: var(--danger); font-weight: 700; }
+
+    .form-state { display: none; text-align: center; }
+    .form-state--success.active { display: block; }
+    .form-card.is-success .form-grid { display: none; }
+    .state-icon { font-size: 30px; color: var(--success); }
+    .state-title { font-family: var(--font-display); font-size: 22px; font-weight: 800; text-transform: uppercase; margin: 10px 0 6px; }
+    .state-sub { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+    .state-sub strong { color: var(--white); }
+
+    .spinner {
+      display: inline-block; width: 12px; height: 12px; margin-left: 6px;
+      border: 2px solid rgba(26,19,5,0.35); border-top-color: #1a1305; border-radius: 50%;
+      animation: spin 0.7s linear infinite; vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── FOOTER ── */
+    .footer { padding: 32px 0 44px; border-top: 1px solid var(--border); }
+    .footer__inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+    .footer__brand { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 15px; }
+    .footer__links { display: flex; gap: 16px; font-size: 12px; }
+    .footer__links a { color: var(--muted); text-decoration: none; }
+    .footer__links a:hover { color: var(--gold); }
+
+    /* ── WHATSAPP FLOTANTE (Fase A) ────────────────────────────── */
+    .wa-fab {
+      position: fixed; right: 20px; bottom: 20px; z-index: 40;
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+      transition: color var(--transition), border-color var(--transition), transform var(--transition);
+    }
+    .wa-fab:hover { color: var(--green); border-color: var(--green); transform: translateY(-2px); }
+    .wa-fab svg { width: 24px; height: 24px; display: block; }
+    @media (max-width: 480px) { .wa-fab { right: 14px; bottom: 14px; width: 48px; height: 48px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container nav__inner">
+      <div class="nav__logo">
+        <span class="nav__logo-mark">JOSS</span>
+        <span class="nav__logo-sub">DESXGN</span>
+      </div>
+      <div class="nav__actions">
+        <a href="#form" class="btn btn--primary">Empezar mi Gestión</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="container hero__content">
+      <p class="hero__kicker"><span class="hero__kicker-dot"></span>JOSS DESXGN — CREATIVIDAD + PAUTA</p>
+      <h1 class="hero__title">
+        No vendemos piezas bonitas.
+        <em>Vendemos creatividad + pauta que te traen clientes.</em>
+      </h1>
+      <p class="hero__sub">
+        Diseñamos las piezas. Gestionamos la pauta. Optimizamos cada semana.
+        Tú solo atiendes los clientes nuevos.
+      </p>
+      <div class="hero__ctas">
+        <a href="#form" class="btn btn--primary">Empezar mi Gestión de Campañas</a>
+        <a href="#" id="hero-whatsapp" class="btn btn--ghost" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="diff">
+    <div class="container">
+      <p class="diff__intro">Esto no es una pieza suelta ni una campaña de una sola vez. Es la gestión continua de tu publicidad: campañas activas, optimización constante y creatividades nuevas según cómo vaya respondiendo tu audiencia.</p>
+      <div class="diff__grid">
+        <div class="diff__card">
+          <span class="diff__num">01</span>
+          <h3 class="diff__title">Creatividad</h3>
+          <p class="diff__body">Piezas diseñadas para convertir, no solo para verse bien.</p>
+        </div>
+        <div class="diff__card">
+          <span class="diff__num">02</span>
+          <h3 class="diff__title">Pauta</h3>
+          <p class="diff__body">Segmentación, lanzamiento y optimización activa de tu inversión, semana a semana.</p>
+        </div>
+        <div class="diff__card">
+          <span class="diff__num">03</span>
+          <h3 class="diff__title">Renovación</h3>
+          <p class="diff__body">Corregimos, renovamos creatividades y montamos campañas nuevas cuando hace falta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="journey">
+    <div class="container">
+      <p class="journey__label">Cómo trabajamos contigo</p>
+      <div class="journey__steps">
+        <span class="journey__step journey__step--active">Diagnóstico</span>
+        <span class="journey__arrow">→</span>
+        <span class="journey__step">Campaña inicial</span>
+        <span class="journey__arrow">→</span>
+        <span class="journey__step">Gestión mensual</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="container">
+      <p class="proof__text">¿Quieres ver cómo trabajamos la identidad detrás de cada campaña?</p>
+      <a class="proof__link" href="index.html#evidencias" target="_blank" rel="noopener">Ver nuestro trabajo en JOSS DESXGN ↗</a>
+    </div>
+  </section>
+
+  <section class="form-section" id="form">
+    <div class="container">
+      <div class="form-header">
+        <span class="form-header__tag">El primer paso</span>
+        <h2 class="form-header__title">Empieza tu Gestión de Campañas</h2>
+        <p class="form-header__sub">Cuéntanos de tu negocio. Te respondemos por WhatsApp.</p>
+      </div>
+
+      <div class="form-card" id="form-card">
+        <form id="campaign-form" class="form-grid" novalidate>
+          <div class="field">
+            <label for="f-nombre">Nombre <span class="req">*</span></label>
+            <input type="text" id="f-nombre" name="nombre" placeholder="Tu nombre" required autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label for="f-whatsapp">WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="f-whatsapp" name="whatsapp" placeholder="+57 300 000 0000" required autocomplete="tel">
+          </div>
+          <div class="field field--full">
+            <label for="f-email">Email (opcional)</label>
+            <input type="email" id="f-email" name="email" placeholder="tu@correo.com" autocomplete="email">
+          </div>
+          <div class="field field--full">
+            <label for="f-presupuesto">Presupuesto mensual para pauta <span class="req">*</span></label>
+            <select id="f-presupuesto" name="presupuesto" required>
+              <option value="" disabled selected>Selecciona una opción</option>
+              <option value="tiene_presupuesto_definido">Ya tengo un presupuesto mensual definido para publicidad</option>
+              <option value="dispuesto_a_invertir">Estoy dispuesto a invertir, pero aún no defino el monto</option>
+              <option value="evaluando">Todavía estoy evaluando si esto es para mí</option>
+            </select>
+          </div>
+          <div class="field field--full">
+            <label for="f-contexto">Cuéntanos de tu negocio</label>
+            <textarea id="f-contexto" name="contexto" placeholder="¿A qué se dedica tu negocio y qué te gustaría lograr con publicidad?"></textarea>
+          </div>
+
+          <div class="form-message form-message--error" id="form-error" role="alert"></div>
+
+          <button type="submit" class="form-submit" id="form-submit">Empezar mi Gestión de Campañas</button>
+          <p class="form-note">Sin spam. Sin cotizaciones automáticas. Solo una conversación real.</p>
+        </form>
+
+        <div class="form-state form-state--success" id="form-success">
+          <div class="state-icon">✦</div>
+          <div class="state-title">Solicitud enviada correctamente</div>
+          <div class="state-sub">Ya recibimos tu información. Te contactamos pronto por WhatsApp.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">JOSS DESXGN</div>
+      <div class="footer__links">
+        <a href="index.html">Sitio principal</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── WHATSAPP FLOTANTE (Fase A) — icono discreto; el bloque de scripts le fija el href real ── -->
+  <a class="wa-fab" id="wa-fab" href="#" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.8 9.8 0 0 0 12.04 2Zm0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24-1.5 0-2.97-.4-4.25-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.17 8.17 0 0 1-1.26-4.37c0-4.54 3.7-8.24 8.25-8.24Zm-3.2 4.39c-.15 0-.4.06-.6.29-.2.22-.79.77-.79 1.88 0 1.1.8 2.17.92 2.32.11.15 1.57 2.5 3.86 3.4 1.9.75 2.29.6 2.7.56.41-.04 1.34-.55 1.53-1.07.19-.53.19-.98.13-1.07-.06-.09-.2-.15-.42-.26-.22-.11-1.34-.66-1.55-.74-.2-.07-.35-.11-.5.11-.15.22-.57.74-.7.89-.13.15-.26.17-.48.06-.22-.11-.94-.35-1.79-1.11-.66-.59-1.11-1.32-1.24-1.54-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.39-.06-.11-.5-1.24-.69-1.7-.18-.44-.37-.38-.5-.39-.13-.01-.28-.01-.43-.01Z"/></svg>
+  </a>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* =====================================================================
+         Fase F7.7 — CONFIGURACIÓN. Los valores marcados como placeholder
+         NUNCA se reemplazan por datos inventados -- ver reporte de la fase
+         para exactamente qué falta y quién debe proporcionarlo.
+
+         GoHighLevel fue descartado como CRM en esta etapa (decisión de
+         producto, F7.7 §2) -- este archivo ya NO tiene ninguna referencia
+         activa a GHL (ni GHL_WEBHOOK_URL, ni locationId, ni payload con forma
+         de GHL). El destino del formulario es ahora un Google Apps Script Web
+         App que registra cada lead como una fila en Google Sheets -- ver
+         docs/google-sheets-leads-setup.md para la guía completa de cómo
+         crearlo (sin código, paso a paso).
+         ===================================================================== */
+
+      // Fase F7.7 §3 -- URL del Google Apps Script Web App, publicada por el usuario. NO se
+      // encontró ninguna URL real en el proyecto -- se buscó en todo el árbol (casos/,
+      // proyectos/, config) y solo existían placeholders de GHL, ahora retirados. Reemplazar
+      // ÚNICAMENTE cuando el usuario proporcione la URL real tras publicar el Web App.
+      var GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyWRFaDYNkvpMHVX7Qz1ZPwykqjvNPSFZM_LJNUWlsoV0oVzyrqJkQZb59kN3SDgKJP/exec";
+
+      // Fase F7.6 §6, sin cambios en F7.7 -- NO existe ningún Meta Pixel ID en el proyecto
+      // (confirmado: proyectos/001_OJ0SS_DROP01.md ya documentaba "Sin tracking actualmente").
+      // Reemplazar ÚNICAMENTE con el ID real de Meta Business Manager.
+      var META_PIXEL_ID = "{{META_PIXEL_ID}}";
+
+      // Opcional -- GA4. Tampoco existe ningún Measurement ID real en el proyecto.
+      var GA4_MEASUREMENT_ID = "{{GA4_MEASUREMENT_ID}}";
+
+      // Fase F7.6 §5, sin cambios en F7.7 -- número REAL, verificado por triple coincidencia
+      // en el proyecto: index.html, JOSS_DESXGN.md ("Contacto:") y el fork anterior de la
+      // landing. Formato wa.me (solo dígitos, sin '+').
+      var WHATSAPP_NUMBER = "573150650071";
+      var WHATSAPP_MESSAGE = "Hola, vengo de la landing de campañas de JOSS DESXGN y quiero más información.";
+
+      function isPlaceholder(value) {
+        return !value || value.indexOf("{{") === 0;
+      }
+
+      /* =====================================================================
+         UTM -- Fase F7.7 §13: se capturan si existen en la URL, nunca rompen
+         el formulario si están ausentes (quedan como string vacío).
+         ===================================================================== */
+      var urlParams = new URLSearchParams(window.location.search);
+      function utm(name) {
+        return urlParams.get(name) || "";
+      }
+
+      /* =====================================================================
+         WHATSAPP -- enlaces reales, sin tokens ni datos sensibles en la URL.
+         ===================================================================== */
+      var whatsappUrl = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_MESSAGE);
+      // Fase A: el CTA del hero y el botón flotante de icono reciben el mismo
+      // enlace. Los enlaces de texto "WhatsApp" del nav y el footer se
+      // retiraron (el número nunca aparece como texto en la interfaz).
+      ["hero-whatsapp", "wa-fab"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.setAttribute("href", whatsappUrl);
+      });
+
+      /* =====================================================================
+         META PIXEL -- Fase F7.6 §6/§7: NUNCA se simula que está activo. Si
+         META_PIXEL_ID sigue siendo el placeholder, el código base de Meta ni
+         siquiera se inyecta -- cero intento de red con un ID inventado.
+         ===================================================================== */
+      var pixelReady = false;
+      if (!isPlaceholder(META_PIXEL_ID)) {
+        /* eslint-disable */
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        /* eslint-enable */
+        window.fbq('init', META_PIXEL_ID);
+        window.fbq('track', 'PageView');
+        pixelReady = true;
+      }
+
+      /* GA4 -- mismo criterio: solo se inyecta si hay un ID real. */
+      if (!isPlaceholder(GA4_MEASUREMENT_ID)) {
+        var gaScript = document.createElement("script");
+        gaScript.async = true;
+        gaScript.src = "https://www.googletagmanager.com/gtag/js?id=" + GA4_MEASUREMENT_ID;
+        document.head.appendChild(gaScript);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag("js", new Date());
+        window.gtag("config", GA4_MEASUREMENT_ID);
+      }
+
+      /* =====================================================================
+         FORMULARIO -- Fase F7.6 §4/§7, mantenido sin cambios de fondo en F7.7
+         §11: SOLO se muestra éxito cuando el Google Apps Script Web App
+         confirma realmente el envío (status HTTP 2xx). Cualquier otro caso
+         (placeholder sin configurar, red caída, error del servidor, respuesta
+         inesperada) muestra un mensaje seguro con WhatsApp como respaldo --
+         NUNCA se pierde un lead en silencio. Un solo envío en vuelo a la vez
+         (debounce simple con bandera de estado).
+         ===================================================================== */
+      var form = document.getElementById("campaign-form");
+      var submitBtn = document.getElementById("form-submit");
+      var errorBox = document.getElementById("form-error");
+      var formCard = document.getElementById("form-card");
+      var successState = document.getElementById("form-success");
+
+      var isSubmitting = false;
+
+      function showError(message) {
+        errorBox.innerHTML = message;
+        errorBox.classList.add("form-message--error");
+        errorBox.style.display = "block";
+      }
+
+      function hideError() {
+        errorBox.style.display = "none";
+        errorBox.innerHTML = "";
+      }
+
+      function showSuccess() {
+        formCard.classList.add("is-success");
+        successState.classList.add("active");
+        successState.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      function setSubmittingState(submitting) {
+        isSubmitting = submitting;
+        submitBtn.disabled = submitting;
+        submitBtn.innerHTML = submitting ? "Enviando<span class=\"spinner\"></span>" : "Empezar mi Gestión de Campañas";
+      }
+
+      function fireLeadEvent(payload) {
+        // Fase F7.6 §7 -- ÚNICAMENTE llamado desde la rama de éxito real, nunca antes.
+        if (pixelReady && window.fbq) {
+          window.fbq("track", "Lead", {
+            content_name: "sprint_de_campana",
+            content_category: payload.presupuesto,
+          });
+        }
+        if (!isPlaceholder(GA4_MEASUREMENT_ID) && window.gtag) {
+          window.gtag("event", "generate_lead", { budget_stage: payload.presupuesto });
+        }
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (isSubmitting) {
+          return; // Fase F7.6 §4 -- evita doble envío mientras la primera solicitud está pendiente.
+        }
+        hideError();
+
+        var nombre = form.nombre.value.trim();
+        var whatsapp = form.whatsapp.value.trim();
+        var presupuesto = form.presupuesto.value;
+
+        if (!nombre || !whatsapp || !presupuesto) {
+          showError("Por favor completa los campos obligatorios.");
+          return;
+        }
+
+        // Fase F7.7 §6/§13 -- estructura EXACTA de columnas de la Google Sheet, sin campos
+        // innecesarios (nunca API keys, tokens, tenant_id ni datos internos de LAZZY).
+        var payload = {
+          timestamp: new Date().toISOString(),
+          nombre: nombre,
+          whatsapp: whatsapp,
+          email: form.email.value.trim() || "",
+          presupuesto: presupuesto,
+          contexto: form.contexto.value.trim() || "",
+          origen: "campaign.html",
+          utm_source: utm("utm_source"),
+          utm_medium: utm("utm_medium"),
+          utm_campaign: utm("utm_campaign"),
+          utm_content: utm("utm_content"),
+        };
+
+        // Fase F7.7 §3/§7 -- si el Web App sigue siendo el placeholder, NUNCA se intenta la
+        // petición (evita una llamada de red rota) y NUNCA se muestra éxito.
+        if (isPlaceholder(GOOGLE_SHEETS_WEBHOOK_URL)) {
+          showError(
+            "En este momento no pudimos enviar tu solicitud. Escríbenos directamente por " +
+            "<a href=\"" + whatsappUrl + "\" target=\"_blank\" rel=\"noopener\">WhatsApp</a>."
+          );
+          return;
+        }
+
+        setSubmittingState(true);
+
+        var controller = ("AbortController" in window) ? new AbortController() : null;
+        var timeoutId = controller ? setTimeout(function () { controller.abort(); }, 10000) : null;
+
+        // Fase F7.7 -- Content-Type "text/plain" es DELIBERADO, no un error: los Google Apps
+        // Script Web Apps no manejan bien el preflight CORS (OPTIONS) que dispara
+        // "application/json". Enviando el body como "simple request" (text/plain) se evita el
+        // preflight por completo; el cuerpo SIGUE siendo JSON -- el doPost(e) del lado del
+        // Apps Script hace JSON.parse(e.postData.contents) sin importar la cabecera declarada
+        // (ver docs/apps-script/Code.gs).
+        fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload),
+          signal: controller ? controller.signal : undefined,
+        })
+          .then(function (response) {
+            if (timeoutId) clearTimeout(timeoutId);
+            if (!response.ok) {
+              // Fase F7.7 §7 -- HTTP no exitoso (4xx/5xx) -> NUNCA éxito falso.
+              throw new Error("sheets_webhook_http_not_ok_" + response.status);
+            }
+            // Fase F7.7.1 -- el HTTP 200 de Apps Script NO basta como criterio de éxito: Apps
+            // Script devuelve HTTP 200 incluso para sus propios errores controlados
+            // ({ok:false, error:"..."}). Hay que leer el cuerpo real antes de decidir.
+            return response.json();
+          })
+          .then(function (result) {
+            // Fase F7.7.1 -- único criterio de éxito real: el JSON del Web App confirma
+            // explícitamente result.ok === true. Cualquier otro valor (ok:false, ausente,
+            // cuerpo con otra forma) se trata como error -- nunca éxito falso.
+            if (!result || result.ok !== true) {
+              throw new Error("sheets_webhook_body_not_ok");
+            }
+            fireLeadEvent(payload);
+            showSuccess();
+          })
+          .catch(function (_err) {
+            if (timeoutId) clearTimeout(timeoutId);
+            // Fase F7.7 §7 / F7.7.1 -- cubre TODAS las formas de fallo: red caída, timeout,
+            // HTTP no-ok, JSON inválido, o JSON válido con ok:false -> siempre el mismo mensaje
+            // seguro + WhatsApp, NUNCA éxito falso, NUNCA se expone el detalle técnico al usuario.
+            showError(
+              "En este momento no pudimos enviar tu solicitud. Escríbenos directamente por " +
+              "<a href=\"" + whatsappUrl + "\" target=\"_blank\" rel=\"noopener\">WhatsApp</a>."
+            );
+          })
+          .finally(function () {
+            setSubmittingState(false);
+          });
+      });
+    })();
+  </script>
+
+</body>
+</html>
