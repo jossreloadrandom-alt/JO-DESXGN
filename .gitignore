@@ -7,3 +7,15 @@ Thumbs.db
 
 # Configuración local de Claude (puede tener rutas locales)
 .claude/settings.local.json
+
+# Material de exhibición de Casos Documentados — pesado, no versionable
+# (el código de cada caso vive en su propio repo; ver CASO.md → Procedencia)
+casos/**/recursos-pesados/
+
+# Herramienta interna — tiene su propio repositorio técnico independiente
+adobe-ai/
+
+# Agente LAZZY — repositorio Git independiente, no se versiona aquí
+lazzy/
+
+github-recovery-codes.txt
