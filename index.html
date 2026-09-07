@@ -1618,20 +1618,6 @@
     }
     .oj-s06__unlock:hover { color: #555; border-color: #222; }
 
-    /* ── FLOATING REOPEN ───────────────────────────────────────── */
-    #oj-float {
-      position: fixed; bottom: 28px; right: 28px; z-index: 9998;
-      background: #0c0c0c; color: #333;
-      border: 1px solid #161616; padding: 12px 20px;
-      font-family: var(--font); font-size: 8px;
-      font-weight: 600; letter-spacing: 0.25em;
-      text-transform: uppercase; cursor: pointer;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.5s ease, color 0.3s;
-    }
-    #oj-float.on { opacity: 1; pointer-events: auto; }
-    #oj-float:hover { color: #666; }
-
     /* ── ENTRANCE SEQUENCE ─────────────────────────────────────── */
     @keyframes ent-fadeinout { 0%{opacity:0} 12%{opacity:1} 88%{opacity:1} 100%{opacity:0} }
     @keyframes ent-slideup   { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
@@ -2760,9 +2746,6 @@
     <span class="oj-pressure__count" id="oj-p-count">— / 20</span>
   </div>
 
-  <!-- Floating reopen (shown after site is unlocked) -->
-  <button id="oj-float" aria-label="Reabrir DROP 01">ENTER DROP</button>
-
   <!-- ── NAV ──────────────────────────────────────────────────── -->
   <nav class="nav">
     <div class="container">
@@ -2771,7 +2754,7 @@
           <span class="nav__logo-mark">JOSS</span>
           <span class="nav__logo-sub">DESXGN</span>
         </div>
-        <a href="#umbral" class="nav__cta">DIAGNÓSTICO ↗</a>
+        <a href="campaign.html" class="nav__cta">DIAGNÓSTICO ↗</a>
       </div>
     </div>
   </nav>
@@ -3022,7 +3005,14 @@
     </div>
   </section>
 
-  <!-- ── S05 — UMBRAL ──────────────────────────────────────────── -->
+  <!-- FASE B — formulario de diagnóstico retirado de la experiencia pública.
+       El CTA "DIAGNÓSTICO" del nav ahora apunta a campaign.html, que pasa a ser
+       el único formulario público de captación. La sección original (S05 UMBRAL)
+       se conserva envuelta en un <template> (inerte: no se renderiza, el
+       formulario no se envía, sus IDs no entran al DOM) para poder restaurarla
+       sin pérdida: quitar la etiqueta <template> de apertura y su cierre, y
+       reactivar el bloque JS "FORM SUBMIT — Fase A" (comentado más abajo). -->
+  <template id="fase-a-diagnostico-inactivo">
   <section class="form-section section" id="umbral">
     <div class="container">
       <div class="form-wrapper">
@@ -3078,6 +3068,7 @@
       </div>
     </div>
   </section>
+  </template>
 
   <!-- ── CODA — closing statement ─────────────────────────────── -->
   <div class="site-coda">
@@ -3149,7 +3140,6 @@
 
       /* ── ELEMENTS ───────────────────────────────────────────── */
       var overlay   = document.getElementById('oj-overlay');
-      var floatBtn  = document.getElementById('oj-float');
       var pressure  = document.getElementById('oj-pressure');
       var pCount    = document.getElementById('oj-p-count');
 
@@ -3179,7 +3169,6 @@
         localStorage.setItem(LS_UNLOCKED, '1');
         overlay.classList.add('oj-exit');
         document.body.classList.remove('oj-locked');
-        floatBtn.classList.add('on');
         setTimeout(function () {
           overlay.style.display = 'none';
         }, 1100);
@@ -3350,9 +3339,8 @@
             updatePressure();
           }
         } else {
-          /* Entry B — direct/agency URL: base site, DROP accessible via float */
+          /* Entry B — direct/agency URL: base site, DROP accessible via EXPEDIENTE 001 */
           overlay.style.display = 'none';
-          if (floatBtn) floatBtn.classList.add('on');
         }
 
         /* ── GLITCH TRANSITION ──────────────────────────────────── */
@@ -3745,21 +3733,10 @@
         var unlockBtn = document.getElementById('oj-unlock');
         if (unlockBtn) unlockBtn.addEventListener('click', unlockSite);
 
-        /* FLOAT — reopen */
-        if (floatBtn) floatBtn.addEventListener('click', function () {
-          floatBtn.classList.remove('on');
-          overlay.style.display = '';
-          overlay.classList.remove('oj-exit');
-          document.body.classList.add('oj-locked');
-          goTo('oj-s01');
-          runEntrySequence();
-        });
-
         /* EXPEDIENTE 001 — open DROP experience from base site */
         var exp001 = document.getElementById('exp-001');
         if (exp001) {
           function openDrop() {
-            if (floatBtn) floatBtn.classList.remove('on');
             overlay.style.display = '';
             overlay.classList.remove('oj-exit');
             document.body.classList.add('oj-locked');
@@ -3917,12 +3894,15 @@
       startWhenReady();
     })();
 
-    /* ── FORM SUBMIT — Fase A ─────────────────────────────────────
-       Mismo patrón validado que campaign.html: POST text/plain al Apps
-       Script Web App, éxito SÓLO con result.ok === true, manejo de error
-       real con fallback a WhatsApp, nunca un éxito falso. Sin GoHighLevel,
-       sin locationId. El body son las 11 columnas exactas de la hoja
-       (ver docs/apps-script/Code.gs). */
+    /* ── FORM SUBMIT — Fase A · INACTIVO desde Fase B ────────────────────
+       Fase B retiró el formulario de diagnóstico de index.html (ahora vive
+       en un <template> inerte; el CTA "DIAGNÓSTICO" del nav lleva a
+       campaign.html). Este handler queda comentado, no borrado. Para
+       restaurarlo: quitar esta apertura de comentario y su cierre (justo
+       después de "})();" más abajo) y sacar la sección de su <template>.
+       Contrato original (Fase A): POST text/plain al Apps Script Web App,
+       éxito SÓLO con result.ok === true, fallback a WhatsApp, 11 columnas.
+
     (function () {
       'use strict';
 
@@ -4024,6 +4004,7 @@
           });
       });
     })();
+    ── fin del bloque FORM SUBMIT — Fase A, desactivado en Fase B ── */
 
     /* ── NAV SCROLL BEHAVIOR ─────────────────────────────────── */
     (function () {
