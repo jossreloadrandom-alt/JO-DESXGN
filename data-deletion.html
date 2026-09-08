@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index,follow">
+  <meta name="description" content="Cómo solicitar la eliminación de tus datos personales asociados a JOSS DESXGN.">
+  <title>Eliminación de datos — JOSS DESXGN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --border: #222222;
+      --gold: #C9A96E;
+      --white: #F0F0F0;
+      --muted: #6A6A6A;
+      --text: #C7C7C7;
+      --max: 760px;
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-display: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--gold); }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+    .topbar {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky; top: 0;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .topbar__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .brand:hover { color: var(--gold); }
+    .back {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .back:hover { color: var(--gold); }
+
+    main { padding: 56px 0 72px; }
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(30px, 6vw, 44px);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .updated {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+    .intro { color: var(--text); margin-bottom: 40px; }
+    h2 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 21px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin: 40px 0 14px;
+    }
+    p { margin-bottom: 14px; }
+    ul, ol { margin: 0 0 14px 22px; }
+    li { margin-bottom: 8px; }
+    strong { color: var(--white); font-weight: 600; }
+    .callout {
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--gold);
+      background: var(--surface);
+      padding: 20px 22px;
+      margin: 24px 0;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0 48px;
+    }
+    .footer__inner {
+      display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: space-between;
+      gap: 16px;
+    }
+    .footer__brand {
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 13px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: #2a2a2a;
+    }
+    .footer__links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .footer__links a {
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #3a3a3a; text-decoration: none; transition: color var(--transition);
+    }
+    .footer__links a:hover { color: var(--gold); }
+    .footer__copy { font-size: 11px; color: #161616; letter-spacing: 0.05em; }
+
+    @media (max-width: 520px) {
+      main { padding: 40px 0 56px; }
+      .footer__inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a href="index.html" class="brand">JOSS DESXGN</a>
+      <a href="index.html" class="back">← Volver al inicio</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <h1>Eliminación de datos</h1>
+      <p class="updated">Última actualización: 7 de septiembre de 2026</p>
+
+      <p class="intro">
+        Si alguna vez enviaste el formulario del sitio de JOSS DESXGN o nos escribiste por
+        WhatsApp, puedes pedir que eliminemos los datos personales asociados a esa interacción.
+        Esta página explica qué datos podemos tener, cómo solicitar su eliminación y qué ocurre
+        después.
+      </p>
+
+      <h2>1. Qué datos podemos tener sobre ti</h2>
+      <p>Según cómo nos hayas contactado, podemos tener:</p>
+      <ul>
+        <li>tu nombre;</li>
+        <li>tu número de WhatsApp;</li>
+        <li>tu correo electrónico, si lo proporcionaste;</li>
+        <li>la etapa de presupuesto que seleccionaste en el formulario;</li>
+        <li>el texto que escribiste sobre tu negocio;</li>
+        <li>los parámetros de campaña (UTM) de la visita en la que enviaste el formulario;</li>
+        <li>el historial de la conversación de WhatsApp que hayas mantenido con nosotros.</li>
+      </ul>
+      <p>
+        La solicitud del formulario se guarda en una hoja de cálculo de Google gestionada por
+        JOSS DESXGN. Los mensajes de WhatsApp quedan en la aplicación de WhatsApp de JOSS DESXGN.
+        Además, cuando el canal de WhatsApp esté conectado a nuestro sistema de gestión de
+        conversaciones ("LAZZY"), el contenido y el historial de esas conversaciones pueden
+        quedar almacenados de forma persistente en el backend de ese sistema, alojado en
+        servidores de un proveedor externo (actualmente Railway). Puedes ver el detalle en la
+        <a href="privacy.html">Política de Privacidad</a>.
+      </p>
+
+      <h2>2. Cómo solicitar la eliminación</h2>
+      <div class="callout">
+        <p>
+          Escríbenos por <strong>WhatsApp al +57 315 065 0071</strong> con el mensaje:
+          <em>"Solicito la eliminación de mis datos"</em>.
+        </p>
+        <p>
+          Para poder localizar tu registro, indica el <strong>nombre</strong> y el
+          <strong>número de WhatsApp</strong> con los que nos contactaste. Si usaste un correo
+          en el formulario, inclúyelo también.
+        </p>
+      </div>
+      <p>
+        Solo atenderemos solicitudes que podamos asociar de forma razonable con la persona
+        titular de los datos.
+      </p>
+
+      <h2>3. Qué hacemos al recibir tu solicitud</h2>
+      <ol>
+        <li>
+          Buscamos tus registros en nuestra hoja de solicitudes de Google, en WhatsApp y, si el
+          canal de conversaciones (LAZZY) está activo, en el backend de ese sistema.
+        </li>
+        <li>
+          Eliminamos la fila o filas correspondientes, borramos la conversación de WhatsApp y
+          eliminamos los datos de la conversación almacenados en el backend, si los hay.
+        </li>
+        <li>Te confirmamos por WhatsApp cuando esté hecho.</li>
+      </ol>
+      <p>
+        La eliminación la realiza manualmente una persona de JOSS DESXGN. Procesamos cada
+        solicitud lo antes posible. Todavía no fijamos un plazo máximo comprometido para
+        completarla; cuando lo definamos, lo indicaremos en esta página.
+      </p>
+
+      <h2>4. Excepciones de conservación</h2>
+      <p>
+        Si existe una obligación legal, contable o fiscal de conservar algún dato concreto —por
+        ejemplo, un comprobante si llegamos a facturarte un servicio—, conservaremos únicamente
+        lo estrictamente necesario y durante el tiempo que exija la ley. Todo lo demás se
+        elimina.
+      </p>
+
+      <h2>5. Datos en manos de terceros</h2>
+      <p>
+        Los proveedores de infraestructura (Google, Meta/WhatsApp, GitHub y el proveedor de
+        servidores donde se aloja el backend de LAZZY) pueden mantener copias técnicas, respaldos
+        o registros por sus propios plazos y políticas. Para ejercer tus derechos frente a ellos,
+        debes dirigirte a cada proveedor. Nosotros eliminamos lo que está bajo nuestro control.
+      </p>
+
+      <h2>6. Contacto</h2>
+      <p>
+        Cualquier duda sobre este proceso: WhatsApp <strong>+57 315 065 0071</strong>. Ver
+        también la <a href="privacy.html">Política de Privacidad</a>.
+      </p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">JOSS DESXGN</div>
+      <nav class="footer__links" aria-label="Enlaces legales">
+        <a href="privacy.html">Privacidad</a>
+        <a href="terms.html">Términos</a>
+        <a href="data-deletion.html">Eliminar datos</a>
+        <a href="index.html">Inicio</a>
+      </nav>
+      <div class="footer__copy">© 2026 — Cúcuta, Colombia</div>
+    </div>
+  </footer>
+</body>
+</html>

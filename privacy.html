@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index,follow">
+  <meta name="description" content="Política de Privacidad de JOSS DESXGN — qué información recogemos, para qué la usamos y cómo solicitar su eliminación.">
+  <title>Política de Privacidad — JOSS DESXGN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --border: #222222;
+      --gold: #C9A96E;
+      --white: #F0F0F0;
+      --muted: #6A6A6A;
+      --text: #C7C7C7;
+      --max: 760px;
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-display: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--gold); }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+    .topbar {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky; top: 0;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .topbar__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .brand:hover { color: var(--gold); }
+    .back {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .back:hover { color: var(--gold); }
+
+    main { padding: 56px 0 72px; }
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(30px, 6vw, 44px);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .updated {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+    .intro { color: var(--text); margin-bottom: 40px; }
+    h2 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 21px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin: 40px 0 14px;
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      margin: 22px 0 8px;
+    }
+    p { margin-bottom: 14px; }
+    ul { margin: 0 0 14px 22px; }
+    li { margin-bottom: 8px; }
+    strong { color: var(--white); font-weight: 600; }
+    .note {
+      border-left: 2px solid var(--border);
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      margin: 18px 0;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0 48px;
+    }
+    .footer__inner {
+      display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: space-between;
+      gap: 16px;
+    }
+    .footer__brand {
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 13px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: #2a2a2a;
+    }
+    .footer__links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .footer__links a {
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #3a3a3a; text-decoration: none; transition: color var(--transition);
+    }
+    .footer__links a:hover { color: var(--gold); }
+    .footer__copy { font-size: 11px; color: #161616; letter-spacing: 0.05em; }
+
+    @media (max-width: 520px) {
+      main { padding: 40px 0 56px; }
+      .footer__inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a href="index.html" class="brand">JOSS DESXGN</a>
+      <a href="index.html" class="back">← Volver al inicio</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <h1>Política de Privacidad</h1>
+      <p class="updated">Última actualización: 7 de septiembre de 2026</p>
+
+      <p class="intro">
+        Esta política explica qué información recogemos cuando visitas el sitio de JOSS DESXGN
+        o nos escribes, para qué la usamos, con quién se comparte y cómo puedes pedir que la
+        eliminemos. Describe únicamente lo que el sitio hace hoy.
+      </p>
+
+      <h2>1. Quién opera este sitio</h2>
+      <p>
+        El sitio lo opera <strong>JOSS DESXGN</strong>, estudio creativo con sede en Cúcuta, Colombia.
+        Para cualquier asunto relacionado con tus datos personales puedes escribirnos por
+        WhatsApp al <strong>+57 315 065 0071</strong>.
+      </p>
+
+      <h2>2. Qué información recogemos</h2>
+
+      <h3>a. Formulario de la página de campañas</h3>
+      <p>
+        Si completas y envías el formulario de <a href="campaign.html">campaign.html</a>
+        ("Empezar mi Gestión de Campañas"), recogemos lo que escribes en él:
+      </p>
+      <ul>
+        <li>Tu nombre.</li>
+        <li>Tu número de WhatsApp.</li>
+        <li>Tu correo electrónico (opcional; solo si lo escribes).</li>
+        <li>La etapa de presupuesto para publicidad que seleccionas (una de tres opciones fijas).</li>
+        <li>La descripción libre de tu negocio y lo que quieres lograr (opcional; el texto que tú redactes).</li>
+      </ul>
+      <p>Junto con ese envío se guarda también la fecha y hora en que lo hiciste.</p>
+
+      <h3>b. Parámetros de campaña (UTM)</h3>
+      <p>
+        Si llegas al sitio desde un anuncio o un enlace de campaña, la dirección puede incluir
+        parámetros <strong>utm_source</strong>, <strong>utm_medium</strong>, <strong>utm_campaign</strong>
+        y <strong>utm_content</strong>. Si están presentes, se guardan junto a tu solicitud para
+        saber qué anuncio o canal te trajo. Si no vienen en la dirección, quedan vacíos. No se
+        recoge ningún otro parámetro de la URL.
+      </p>
+
+      <h3>c. WhatsApp</h3>
+      <p>
+        El sitio incluye enlaces para escribirnos por WhatsApp. Si nos escribes por ese medio,
+        vemos tu número de teléfono y el contenido de tus mensajes. WhatsApp es un servicio de
+        Meta y el transporte de esos mensajes se rige por las políticas de Meta, no por
+        nosotros.
+      </p>
+      <p>
+        JOSS DESXGN utiliza un sistema propio de gestión de conversaciones ("LAZZY"), alojado en
+        infraestructura de servidor de un proveedor externo (actualmente Railway). Cuando el
+        canal de WhatsApp esté conectado a ese sistema, el contenido de tus mensajes, tu número
+        y el historial de la conversación pueden quedar registrados y almacenados de forma
+        persistente en ese backend, además de en WhatsApp, para poder darte seguimiento y
+        atenderte. A la fecha de esta política ese canal no está en operación; esta sección
+        describe cómo funcionará cuando se active.
+      </p>
+
+      <h3>d. Datos técnicos del alojamiento</h3>
+      <p>
+        El sitio se aloja en <strong>GitHub Pages</strong> y las tipografías se cargan desde
+        <strong>Google Fonts</strong>. Por el funcionamiento normal de la web, esos proveedores
+        pueden registrar tu dirección IP y datos básicos de tu navegador al servir la página.
+        JOSS DESXGN no recibe ni utiliza esa información.
+      </p>
+
+      <h3>e. Cookies y analítica</h3>
+      <p>
+        Este sitio <strong>no instala cookies propias</strong> y <strong>no tiene analítica ni
+        píxeles de seguimiento activos</strong>. La página de campañas guarda de forma local en
+        tu navegador (localStorage) un contador para la experiencia de lanzamiento de producto
+        "DROP 01"; ese dato no contiene información personal y nunca sale de tu dispositivo.
+      </p>
+      <p class="note">
+        Si en el futuro se activa el Píxel de Meta o Google Analytics para medir campañas
+        publicitarias, esta política se actualizará antes de esa activación para describir esas
+        cookies y ese tratamiento.
+      </p>
+
+      <h2>3. Para qué usamos tu información</h2>
+      <ul>
+        <li>Responder a tu solicitud y contactarte por WhatsApp.</li>
+        <li>Evaluar si nuestros servicios encajan con lo que necesitas.</li>
+        <li>Coordinar y prestar el servicio de gestión de campañas si decidimos trabajar juntos.</li>
+        <li>Saber qué anuncio o canal generó tu solicitud (parámetros UTM), para mejorar nuestras campañas.</li>
+      </ul>
+      <p>No realizamos decisiones automatizadas ni elaboración de perfiles con efectos jurídicos sobre ti.</p>
+
+      <h2>4. Con quién se comparte</h2>
+      <ul>
+        <li>
+          <strong>Google.</strong> Tu solicitud del formulario se envía y se almacena en una hoja
+          de cálculo de Google Sheets gestionada por JOSS DESXGN, mediante Google Apps Script.
+        </li>
+        <li>
+          <strong>Meta (WhatsApp).</strong> Si nos escribes por WhatsApp, tu mensaje pasa por la
+          infraestructura de Meta.
+        </li>
+        <li>
+          <strong>Proveedor de infraestructura de servidor (actualmente Railway).</strong>
+          Cuando el canal de WhatsApp esté conectado a nuestro sistema de gestión de
+          conversaciones (LAZZY), los datos de esas conversaciones se almacenan en servidores de
+          ese proveedor, contratados y administrados por JOSS DESXGN.
+        </li>
+        <li>
+          <strong>GitHub y Google Fonts.</strong> Como proveedores de alojamiento y tipografías,
+          según lo descrito en el punto 2.d.
+        </li>
+      </ul>
+      <p>
+        No vendemos tus datos ni los cedemos a terceros para su propia publicidad o marketing.
+      </p>
+
+      <h2>5. Dónde se almacena</h2>
+      <p>
+        Las solicitudes del formulario se guardan en Google Sheets (servidores de Google). Las
+        conversaciones de WhatsApp quedan en los servidores de Meta y en el teléfono de JOSS
+        DESXGN y, cuando el canal de WhatsApp esté conectado a nuestro sistema LAZZY, también
+        de forma persistente en el backend de ese sistema (actualmente en servidores de
+        Railway). Estos servicios pueden operar servidores fuera de Colombia.
+      </p>
+
+      <h2>6. Cuánto tiempo lo conservamos</h2>
+      <p>
+        Conservamos tu solicitud y la conversación mientras exista un interés legítimo en
+        contactarte o mantener la relación. Puedes pedir su eliminación en cualquier momento
+        (ver <a href="data-deletion.html">Eliminación de datos</a>). Todavía no tenemos definido
+        un período de conservación fijo; cuando lo definamos, lo indicaremos aquí.
+      </p>
+
+      <h2>7. Seguridad</h2>
+      <p>
+        El acceso a la hoja de solicitudes está restringido a JOSS DESXGN mediante cuenta de
+        Google. La ruta que permite consultar una solicitud concreta desde otros sistemas está
+        protegida por una clave. El sistema LAZZY y su backend requieren credenciales propias
+        para su acceso. Ningún método de transmisión o almacenamiento es completamente
+        infalible, pero tomamos medidas razonables para proteger tu información.
+      </p>
+
+      <h2>8. Tus derechos</h2>
+      <p>
+        Puedes solicitar el <strong>acceso</strong>, la <strong>corrección</strong> o la
+        <strong>eliminación</strong> de tus datos personales, así como retirar tu autorización
+        para que te contactemos. Escríbenos por WhatsApp al <strong>+57 315 065 0071</strong> o
+        sigue las instrucciones de la página <a href="data-deletion.html">Eliminación de datos</a>.
+      </p>
+      <p>
+        Si resides en Colombia, la Ley 1581 de 2012 y sus normas complementarias te reconocen
+        derechos sobre tus datos personales.
+      </p>
+
+      <h2>9. Menores de edad</h2>
+      <p>
+        El sitio y los servicios de JOSS DESXGN se dirigen a negocios y a personas adultas. No
+        recogemos de forma consciente datos de menores de edad.
+      </p>
+
+      <h2>10. Cambios en esta política</h2>
+      <p>
+        Podemos actualizar esta política. Publicaremos la versión vigente en esta misma página,
+        con una nueva fecha de "última actualización".
+      </p>
+
+      <h2>11. Contacto</h2>
+      <p>
+        Para cualquier consulta sobre privacidad o sobre tus datos: WhatsApp
+        <strong>+57 315 065 0071</strong>.
+      </p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">JOSS DESXGN</div>
+      <nav class="footer__links" aria-label="Enlaces legales">
+        <a href="privacy.html">Privacidad</a>
+        <a href="terms.html">Términos</a>
+        <a href="data-deletion.html">Eliminar datos</a>
+        <a href="index.html">Inicio</a>
+      </nav>
+      <div class="footer__copy">© 2026 — Cúcuta, Colombia</div>
+    </div>
+  </footer>
+</body>
+</html>

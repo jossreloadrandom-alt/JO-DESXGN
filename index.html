@@ -1210,6 +1210,10 @@
     /* ── FOOTER · acceso equipo (Fase A — sin destino todavía) ── */
     .footer__access { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #3a3a3a; cursor: default; user-select: none; }
     .footer__right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    /* ── FOOTER · enlaces legales (Fase legal) — mismo peso visual que .footer__access ── */
+    .footer__legal { display: flex; gap: 14px; flex-wrap: wrap; }
+    .footer__legal a { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #3a3a3a; text-decoration: none; transition: color var(--transition); }
+    .footer__legal a:hover { color: var(--gold); }
   </style>
 
   <!-- ── OJ0$ DROP 01 — OVERLAY STYLES ───────────────────────── -->
@@ -3104,6 +3108,11 @@
           <div class="footer__sub"><span style="color:var(--green)">STUDIO CREATIVO</span></div>
         </div>
         <div class="footer__right">
+          <nav class="footer__legal" aria-label="Enlaces legales">
+            <a href="privacy.html">Privacidad</a>
+            <a href="terms.html">Términos</a>
+            <a href="data-deletion.html">Eliminar datos</a>
+          </nav>
           <!-- Fase A: entrada al panel privado del equipo. Sin destino todavia
                (LAZZY aun no desplegado). Cuando exista, este span pasa a un enlace real. -->
           <span class="footer__access" title="Disponible próximamente">Acceso equipo</span>
